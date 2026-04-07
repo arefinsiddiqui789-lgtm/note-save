@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { title, folderId } = await request.json();
+    const { title, content, folderId } = await request.json();
 
     const whereClause: { folderId?: string | null } = { folderId: null };
     if (folderId && folderId !== 'unorganized') {
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const note = await db.note.create({
       data: {
         title: (title || 'Untitled Note').trim(),
-        content: '',
+        content: content || '',
         folderId: folderId === 'unorganized' ? null : (folderId || null),
         order: (max?.order ?? -1) + 1,
       },
