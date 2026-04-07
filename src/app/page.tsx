@@ -177,15 +177,15 @@ export default function HomePage() {
             </Button>
           )}
 
-          {/* Close sidebar - desktop */}
+          {/* Close sidebar */}
           {sidebarOpen && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 hidden lg:flex text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5"
+              className="h-8 w-8 sm:h-7 sm:w-7 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 active:scale-90 transition-all"
               onClick={() => setSidebarOpen(false)}
             >
-              <PanelLeftClose className="h-4 w-4" />
+              <PanelLeftClose className="h-[18px] w-[18px] sm:h-4 sm:w-4" />
             </Button>
           )}
 
