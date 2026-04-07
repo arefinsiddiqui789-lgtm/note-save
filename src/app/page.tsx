@@ -41,6 +41,7 @@ export default function HomePage() {
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
   const initialized = useRef(false);
   const latestContent = useRef<string>('');
+  const dialogOpenRef = useRef(false);
 
   // Create Note dialog state
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -72,11 +73,13 @@ export default function HomePage() {
   const createNote = useCallback((folderId: string | null) => {
     setPendingFolderId(folderId);
     setNewNoteName('');
+    dialogOpenRef.current = true;
     setShowCreateDialog(true);
   }, []);
 
   const confirmCreateNote = useCallback(async () => {
     const title = newNoteName.trim() || 'Untitled Note';
+    dialogOpenRef.current = false;
     setShowCreateDialog(false);
     try {
       const res = await fetch('/api/notes', {
@@ -88,6 +91,7 @@ export default function HomePage() {
           folderId: pendingFolderId,
         }),
       });
+      if (!res.ok) throw new Error('Create failed');
       const note = await res.json();
       addNote(note);
       setSelectedNoteId(note.id);
@@ -123,9 +127,10 @@ export default function HomePage() {
     }, 1200);
   }, [selectedNoteId, updateNote, setIsSaving, setHasUnsavedChanges]);
 
-  // Save on page leave / tab close
+  // Save on page leave / tab close (not when dialog is open on mobile)
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    const saveNow = () => {
+      if (dialogOpenRef.current) return;
       const noteId = useStore.getState().selectedNoteId;
       const content = latestContent.current;
       if (noteId && content) {
@@ -136,24 +141,11 @@ export default function HomePage() {
       }
     };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden') {
-        const noteId = useStore.getState().selectedNoteId;
-        const content = latestContent.current;
-        if (noteId && content) {
-          navigator.sendBeacon(
-            `/api/notes/${noteId}`,
-            new Blob([JSON.stringify({ content })], { type: 'application/json' }),
-          );
-        }
-      }
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('beforeunload', saveNow);
+    document.addEventListener('visibilitychange', saveNow);
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('beforeunload', saveNow);
+      document.removeEventListener('visibilitychange', saveNow);
     };
   }, []);
 
@@ -288,7 +280,7 @@ export default function HomePage() {
         </div>
 
         {/* Create Note Dialog */}
-        <Dialog open={showCreateDialog} onOpenChange={(open) => { setShowCreateDialog(open); if (!open) setNewNoteName(''); }}>
+        <Dialog open={showCreateDialog} onOpenChange={(open) => { if (!open) { dialogOpenRef.current = false; setNewNoteName(''); } setShowCreateDialog(open); }}>
           <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-h-[90dvh] overflow-y-auto rounded-2xl sm:rounded-lg mx-2 p-4 sm:p-6 sm:mx-4">
             <DialogHeader className="sm:text-left text-left">
               <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
