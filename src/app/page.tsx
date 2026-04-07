@@ -152,8 +152,15 @@ export default function HomePage() {
           flex-shrink-0
         `}
       >
-        {/* Logo */}
-        <AppLogo />
+        {/* Logo - clickable on mobile to close sidebar */}
+        <button
+          type="button"
+          className="w-full text-left lg:pointer-events-none"
+          onClick={() => { if (window.innerWidth < 1024) setSidebarOpen(false); }}
+          aria-label="Close sidebar"
+        >
+          <AppLogo />
+        </button>
 
         <Separator className="bg-slate-200/60 dark:bg-white/[0.06]" />
 
