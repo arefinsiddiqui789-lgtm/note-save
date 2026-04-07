@@ -342,6 +342,7 @@ interface Props {
 
 export default function RichTextEditor({ content, onUpdate, editable = true }: Props) {
   const editor = useEditor({
+    immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
