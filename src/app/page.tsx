@@ -278,7 +278,10 @@ export default function HomePage() {
         {/* Footer */}
         <footer className="flex items-center justify-center px-4 py-2.5 border-t border-slate-200/60 dark:border-white/[0.06] bg-slate-50/50 dark:bg-slate-900/50 flex-shrink-0 safe-area-bottom">
           <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
-            Developed by Arefin Siddiqui
+            Developed by{" "}
+            <span className="bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent font-semibold">
+              Arefin Siddiqui
+            </span>
           </p>
         </footer>
       </main>
