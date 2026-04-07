@@ -101,12 +101,6 @@ export default function HomePage() {
     if (!selectedNoteId) return;
     setHasUnsavedChanges(true);
 
-    // Extract title from first line
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    const firstLine = tempDiv.textContent?.split('\n')[0]?.trim() || '';
-    const title = firstLine.slice(0, 100) || 'Untitled Note';
-
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(async () => {
       setIsSaving(true);
@@ -114,10 +108,10 @@ export default function HomePage() {
         const res = await fetch(`/api/notes/${selectedNoteId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title, content: html }),
+          body: JSON.stringify({ content: html }),
         });
         const updated = await res.json();
-        updateNote(selectedNoteId, { title: updated.title, content: updated.content, updatedAt: updated.updatedAt });
+        updateNote(selectedNoteId, { content: updated.content, updatedAt: updated.updatedAt });
         setHasUnsavedChanges(false);
       } catch (err) {
         console.error('Auto-save failed:', err);
