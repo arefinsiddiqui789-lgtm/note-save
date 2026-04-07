@@ -17,6 +17,7 @@ import { useStore } from '@/store/note-app';
 import Sidebar from '@/components/note-app/sidebar';
 import RichTextEditor from '@/components/note-app/rich-text-editor';
 import AppLogo from '@/components/note-app/app-logo';
+import ThemeToggle from '@/components/note-app/theme-toggle';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -179,13 +180,13 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
   const charCount = localContent.replace(/<[^>]*>/g, '').length;
 
   return (
-    <div className="flex h-screen bg-slate-950 text-white overflow-hidden">
+    <div className="flex h-screen bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-white overflow-hidden">
       {/* Desktop Sidebar */}
-      <div className={`hidden md:flex flex-col border-r border-white/5 bg-slate-900/50 transition-all duration-300 ease-in-out ${sidebarOpen ? 'w-72 min-w-[288px]' : 'w-0 min-w-0 overflow-hidden'}`}>
+      <div className={`hidden md:flex flex-col border-r border-slate-200 dark:border-white/5 bg-gray-100/80 dark:bg-slate-900/50 transition-all duration-300 ease-in-out ${sidebarOpen ? 'w-72 min-w-[288px]' : 'w-0 min-w-0 overflow-hidden'}`}>
         {sidebarOpen && (
           <>
             <AppLogo />
-            <Separator className="bg-white/5" />
+            <Separator className="bg-slate-200 dark:bg-white/5" />
             <div className="flex-1 overflow-hidden">
               <Sidebar onCreateNote={createNote} onSelectNote={setSelectedNoteId} />
             </div>
@@ -195,15 +196,15 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
 
       {/* Mobile Sidebar */}
       <Sheet>
-        <SheetContent side="left" className="w-72 p-0 bg-slate-900 border-white/10">
+        <SheetContent side="left" className="w-72 p-0 bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10">
           <AppLogo />
-          <Separator className="bg-white/5" />
+          <Separator className="bg-slate-200 dark:bg-white/5" />
           <div className="flex-1 overflow-hidden">
             <Sidebar onCreateNote={(fid) => createNote(fid)} onSelectNote={(id) => { setSelectedNoteId(id); }} />
           </div>
         </SheetContent>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" className="md:hidden fixed top-3 left-3 z-50 h-9 w-9 bg-slate-800/90 backdrop-blur-sm border border-white/10 rounded-xl text-slate-300 hover:text-white">
+          <Button variant="ghost" size="icon" className="md:hidden fixed top-3 left-3 z-50 h-9 w-9 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white">
             <Menu className="h-4 w-4" />
           </Button>
         </SheetTrigger>
@@ -222,15 +223,15 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
               className="flex flex-col flex-1 min-h-0"
             >
               {/* Top Bar */}
-              <header className="flex items-center gap-2 px-3 sm:px-5 py-2.5 border-b border-white/5 bg-slate-950/80 backdrop-blur-sm flex-shrink-0">
+              <header className="flex items-center gap-2 px-3 sm:px-5 py-2.5 border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-slate-950/80 backdrop-blur-sm flex-shrink-0">
                 <TooltipProvider delayDuration={150}>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 text-slate-500 hover:text-white hover:bg-white/5" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                      <Button variant="ghost" size="icon" className="hidden md:flex h-8 w-8 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => setSidebarOpen(!sidebarOpen)}>
                         {sidebarOpen ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="text-[11px] bg-slate-800 border-white/10 text-slate-300">Toggle Sidebar</TooltipContent>
+                    <TooltipContent side="bottom" className="text-[11px] bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300">Toggle Sidebar</TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
 
@@ -238,8 +239,8 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                   {selectedNote.folder && (
                     <div className="hidden sm:flex items-center gap-1.5 flex-shrink-0">
                       <div className="h-2 w-2 rounded-full" style={{ backgroundColor: selectedNote.folder.color }} />
-                      <span className="text-[11px] text-slate-500 truncate max-w-[100px]">{selectedNote.folder.name}</span>
-                      <span className="text-slate-700">/</span>
+                      <span className="text-[11px] text-slate-400 dark:text-slate-500 truncate max-w-[100px]">{selectedNote.folder.name}</span>
+                      <span className="text-slate-300 dark:text-slate-700">/</span>
                     </div>
                   )}
 
@@ -251,15 +252,15 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                         onChange={(e) => handleTitleChange(e.target.value)}
                         onBlur={() => setEditingTitle(false)}
                         onKeyDown={(e) => { if (e.key === 'Enter') setEditingTitle(false); if (e.key === 'Escape') { setLocalTitle(selectedNote?.title || 'Untitled Note'); setEditingTitle(false); } }}
-                        className="h-7 text-base font-semibold bg-transparent border-none shadow-none focus-visible:ring-0 px-0 text-white placeholder:text-slate-600"
+                        className="h-7 text-base font-semibold bg-transparent border-none shadow-none focus-visible:ring-0 px-0 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
                       />
-                      <Button variant="ghost" size="icon" className="h-6 w-6 text-slate-500 hover:text-white hover:bg-white/5" onClick={() => setEditingTitle(false)}>
+                      <Button variant="ghost" size="icon" className="h-6 w-6 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => setEditingTitle(false)}>
                         <X className="h-3 w-3" />
                       </Button>
                     </div>
                   ) : (
                     <h1
-                      className="text-base font-semibold truncate cursor-pointer text-slate-100 hover:text-white transition-colors"
+                      className="text-base font-semibold truncate cursor-pointer text-slate-800 dark:text-slate-100 hover:text-slate-900 dark:hover:text-white transition-colors"
                       onClick={() => setEditingTitle(true)}
                       title="Click to edit title"
                     >
@@ -271,23 +272,23 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                 {/* Save Status & Actions */}
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {isSaving ? (
-                    <div className="flex items-center gap-1.5 text-[11px] text-amber-400">
+                    <div className="flex items-center gap-1.5 text-[11px] text-amber-500 dark:text-amber-400">
                       <Loader2 className="h-3 w-3 animate-spin" />
                       <span className="hidden sm:inline">Saving...</span>
                     </div>
                   ) : hasUnsavedChanges ? (
-                    <div className="flex items-center gap-1.5 text-[11px] text-amber-400/80">
-                      <div className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                    <div className="flex items-center gap-1.5 text-[11px] text-amber-500 dark:text-amber-400/80">
+                      <div className="h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" />
                       <span className="hidden sm:inline">Unsaved</span>
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-400/70">
+                    <div className="flex items-center gap-1.5 text-[11px] text-emerald-600 dark:text-emerald-400/70">
                       <Check className="h-3 w-3" />
                       <span className="hidden sm:inline">Saved</span>
                     </div>
                   )}
 
-                  <div className="hidden sm:flex items-center gap-1 text-[11px] text-slate-600">
+                  <div className="hidden sm:flex items-center gap-1 text-[11px] text-slate-400 dark:text-slate-600">
                     <Clock className="h-3 w-3" />
                     {fmtDate(selectedNote.updatedAt)}
                   </div>
@@ -295,25 +296,28 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                   <TooltipProvider delayDuration={150}>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10" onClick={handleSave} disabled={isSaving || !hasUnsavedChanges}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 dark:text-slate-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10" onClick={handleSave} disabled={isSaving || !hasUnsavedChanges}>
                           <Save className="h-3.5 w-3.5" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent side="bottom" className="text-[11px] bg-slate-800 border-white/10 text-slate-300">Save (Ctrl+S)</TooltipContent>
+                      <TooltipContent side="bottom" className="text-[11px] bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300">Save (Ctrl+S)</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
 
+                  {/* Theme Toggle */}
+                  <ThemeToggle />
+
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 hover:text-white hover:bg-white/5">
+                      <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5">
                         <span className="text-sm">⋯</span>
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-44 bg-slate-800 border-white/10">
-                      <DropdownMenuItem className="text-slate-300 focus:bg-white/10 focus:text-white" onClick={handleSave}><Save className="h-3.5 w-3.5 mr-2" />Save Note</DropdownMenuItem>
-                      <DropdownMenuSeparator className="bg-white/5" />
-                      <DropdownMenuItem className="text-slate-300 focus:bg-white/10 focus:text-white" onClick={handleDownload}><Download className="h-3.5 w-3.5 mr-2" />Download HTML</DropdownMenuItem>
-                      <DropdownMenuItem className="text-slate-300 focus:bg-white/10 focus:text-white" onClick={handlePrint}><Printer className="h-3.5 w-3.5 mr-2" />Print</DropdownMenuItem>
+                    <DropdownMenuContent align="end" className="w-44 bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10">
+                      <DropdownMenuItem className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white" onClick={handleSave}><Save className="h-3.5 w-3.5 mr-2" />Save Note</DropdownMenuItem>
+                      <DropdownMenuSeparator className="bg-slate-100 dark:bg-white/5" />
+                      <DropdownMenuItem className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white" onClick={handleDownload}><Download className="h-3.5 w-3.5 mr-2" />Download HTML</DropdownMenuItem>
+                      <DropdownMenuItem className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white" onClick={handlePrint}><Printer className="h-3.5 w-3.5 mr-2" />Print</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -325,14 +329,14 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
               </main>
 
               {/* Status Bar */}
-              <footer className="flex items-center justify-between px-4 py-1.5 border-t border-white/5 bg-slate-950/80 text-[11px] text-slate-600 flex-shrink-0">
+              <footer className="flex items-center justify-between px-4 py-1.5 border-t border-slate-200 dark:border-white/5 bg-white/80 dark:bg-slate-950/80 text-[11px] text-slate-400 dark:text-slate-600 flex-shrink-0">
                 <div className="flex items-center gap-4">
                   <span>Created: {new Date(selectedNote.createdAt).toLocaleDateString()}</span>
                   <span className="hidden sm:inline">Modified: {new Date(selectedNote.updatedAt).toLocaleString()}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <span>{wordCount} words</span>
-                  <span className="text-slate-700">•</span>
+                  <span className="text-slate-300 dark:text-slate-700">•</span>
                   <span>{charCount} chars</span>
                 </div>
               </footer>
@@ -372,8 +376,8 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                       animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
                       transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                     />
-                    <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-3xl h-24 w-24 flex items-center justify-center border border-white/10 shadow-2xl">
-                      <svg viewBox="0 0 24 24" className="h-12 w-12 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="relative bg-white dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl h-24 w-24 flex items-center justify-center border border-slate-200 dark:border-white/10 shadow-2xl">
+                      <svg viewBox="0 0 24 24" className="h-12 w-12 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                         <polyline points="14 2 14 8 20 8" />
                         <path d="M12 18v-6" />
@@ -390,10 +394,10 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.15, duration: 0.4 }}
                 >
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                     Save Note
                   </h2>
-                  <p className="text-sm text-slate-500 max-w-xs mx-auto leading-relaxed">
+                  <p className="text-sm text-slate-500 dark:text-slate-500 max-w-xs mx-auto leading-relaxed">
                     Your personal note-taking space. Create folders, organize your thoughts, and never lose an idea.
                   </p>
                 </motion.div>
@@ -431,7 +435,7 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                     <Button
                       variant="outline"
                       size="lg"
-                      className="border-white/10 text-slate-300 hover:text-white hover:bg-white/5 hover:border-white/20 rounded-xl h-12 px-6 cursor-pointer text-sm gap-2"
+                      className="border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 hover:border-slate-300 dark:hover:border-white/20 rounded-xl h-12 px-6 cursor-pointer text-sm gap-2"
                       onClick={() => createNote(selectedFolderId)}
                       disabled={creatingNote}
                     >
@@ -454,10 +458,10 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                     { icon: <Save className="h-4 w-4" />, label: 'Auto-Save' },
                   ].map((feature) => (
                     <div key={feature.label} className="flex flex-col items-center gap-1.5 text-center">
-                      <div className="h-8 w-8 rounded-lg bg-white/5 flex items-center justify-center text-emerald-500/70">
+                      <div className="h-8 w-8 rounded-lg bg-slate-100 dark:bg-white/5 flex items-center justify-center text-emerald-600 dark:text-emerald-500/70">
                         {feature.icon}
                       </div>
-                      <span className="text-[10px] text-slate-600 leading-tight">{feature.label}</span>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-600 leading-tight">{feature.label}</span>
                     </div>
                   ))}
                 </motion.div>
@@ -469,10 +473,10 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.6, duration: 0.4 }}
                 >
-                  <p className="text-[10px] text-slate-600 font-medium uppercase tracking-wider">Keyboard Shortcuts</p>
-                  <div className="flex items-center justify-center gap-4 text-[11px] text-slate-600">
-                    <span><kbd className="px-2 py-0.5 bg-white/5 rounded border border-white/10 text-slate-400 text-[10px] font-mono">Ctrl+S</kbd> Save</span>
-                    <span><kbd className="px-2 py-0.5 bg-white/5 rounded border border-white/10 text-slate-400 text-[10px] font-mono">Ctrl+N</kbd> New Note</span>
+                  <p className="text-[10px] text-slate-400 dark:text-slate-600 font-medium uppercase tracking-wider">Keyboard Shortcuts</p>
+                  <div className="flex items-center justify-center gap-4 text-[11px] text-slate-400 dark:text-slate-600">
+                    <span><kbd className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 text-[10px] font-mono">Ctrl+S</kbd> Save</span>
+                    <span><kbd className="px-2 py-0.5 bg-slate-100 dark:bg-white/5 rounded border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 text-[10px] font-mono">Ctrl+N</kbd> New Note</span>
                   </div>
                 </motion.div>
               </div>
@@ -481,9 +485,9 @@ img{max-width:100%}ul,ol{padding-left:1.5em}hr{border:none;border-top:1px solid 
         </AnimatePresence>
 
         {/* Developer Footer - Sticky at Bottom */}
-        <div className="border-t border-white/5 bg-slate-950 py-2 px-4 text-center flex-shrink-0">
-          <p className="text-[11px] text-slate-600">
-            Developed by <span className="text-emerald-500/80 font-medium">Arefin Siddiqui</span>
+        <div className="border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950 py-2 px-4 text-center flex-shrink-0">
+          <p className="text-[11px] text-slate-400 dark:text-slate-600">
+            Developed by <span className="text-emerald-600 dark:text-emerald-500/80 font-medium">Arefin Siddiqui</span>
           </p>
         </div>
       </div>

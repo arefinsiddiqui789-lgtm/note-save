@@ -130,14 +130,14 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
       {/* Header */}
       <div className="p-4 pb-3">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xs font-semibold text-emerald-400/80 uppercase tracking-[0.2em]">
+          <h2 className="text-xs font-semibold text-emerald-600 dark:text-emerald-400/80 uppercase tracking-[0.2em]">
             Explorer
           </h2>
           <div className="flex gap-0.5">
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5" onClick={() => setShowNewFolder(true)}>
+            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => setShowNewFolder(true)}>
               <FolderPlus className="h-3.5 w-3.5" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
+            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
               <Plus className="h-3.5 w-3.5" />
             </Button>
           </div>
@@ -145,31 +145,31 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-500" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
           <Input
             placeholder="Search notes..."
-            className="h-8 pl-8 text-xs bg-white/5 border-white/10 text-slate-200 placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg"
+            className="h-8 pl-8 text-xs bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
 
-      <Separator className="bg-white/5" />
+      <Separator className="bg-slate-200 dark:bg-white/5" />
 
       <ScrollArea className="flex-1 px-2 py-1">
         {/* All Notes */}
         <button
           className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
             selectedFolderId === null && !search.trim()
-              ? 'bg-emerald-500/15 text-emerald-300 font-medium'
-              : 'text-slate-300 hover:bg-white/5 hover:text-white'
+              ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium'
+              : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
           }`}
           onClick={() => { setSelectedFolderId(null); setSearch(''); }}
         >
-          <Hash className="h-4 w-4 text-slate-500" />
+          <Hash className="h-4 w-4 text-slate-400 dark:text-slate-500" />
           <span className="flex-1 text-left">All Notes</span>
-          <Badge className="text-[10px] h-4 px-1.5 bg-white/10 text-slate-400 border-0 font-normal">
+          <Badge className="text-[10px] h-4 px-1.5 bg-slate-200 dark:bg-white/10 text-slate-500 dark:text-slate-400 border-0 font-normal">
             {notes.length}
           </Badge>
         </button>
@@ -185,8 +185,8 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                 <button
                   className={`flex-1 flex items-center gap-2 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
                     isSel
-                      ? 'bg-emerald-500/15 text-emerald-300 font-medium'
-                      : 'text-slate-300 hover:bg-white/5 hover:text-white'
+                      ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
                   }`}
                   onClick={() => { setSelectedFolderId(folder.id); setSearch(''); }}
                 >
@@ -195,7 +195,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                     onClick={(e) => { e.stopPropagation(); toggle(folder.id); }}
                   >
                     {fNotes.length > 0 ? (
-                      isExp ? <ChevronDown className="h-3 w-3 text-slate-500" /> : <ChevronRight className="h-3 w-3 text-slate-500" />
+                      isExp ? <ChevronDown className="h-3 w-3 text-slate-400 dark:text-slate-500" /> : <ChevronRight className="h-3 w-3 text-slate-400 dark:text-slate-500" />
                     ) : <span className="w-3" />}
                   </span>
                   {isSel || isExp ? (
@@ -204,21 +204,21 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                     <FolderClosed className="h-4 w-4 flex-shrink-0" style={{ color: folder.color }} />
                   )}
                   <span className="truncate flex-1 text-left">{folder.name}</span>
-                  <Badge className="text-[10px] h-4 px-1.5 bg-white/10 text-slate-500 border-0 font-normal flex-shrink-0">
+                  <Badge className="text-[10px] h-4 px-1.5 bg-slate-200 dark:bg-white/10 text-slate-400 dark:text-slate-500 border-0 font-normal flex-shrink-0">
                     {folder._count?.notes ?? fNotes.length}
                   </Badge>
                 </button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-slate-400 hover:text-white hover:bg-white/10 flex-shrink-0">
+                    <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 flex-shrink-0">
                       <MoreHorizontal className="h-3 w-3" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-36 bg-slate-800 border-white/10">
-                    <DropdownMenuItem className="text-slate-300 focus:bg-white/10 focus:text-white" onClick={() => { setEditId(folder.id); setEditName(folder.name); }}>
+                  <DropdownMenuContent align="end" className="w-36 bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10">
+                    <DropdownMenuItem className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white" onClick={() => { setEditId(folder.id); setEditName(folder.name); }}>
                       <Pencil className="h-3.5 w-3.5 mr-2" /> Rename
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-400 focus:bg-red-500/10 focus:text-red-300" onClick={() => setDelFolderId(folder.id)}>
+                    <DropdownMenuItem className="text-red-500 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-500/10 focus:text-red-600 dark:focus:text-red-300" onClick={() => setDelFolderId(folder.id)}>
                       <Trash2 className="h-3.5 w-3.5 mr-2" /> Delete
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -226,14 +226,14 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
               </div>
 
               {isExp && fNotes.length > 0 && (
-                <div className="ml-5 pl-3 border-l border-white/5">
+                <div className="ml-5 pl-3 border-l border-slate-200 dark:border-white/5">
                   {fNotes.map((note) => (
                     <NoteItem key={note.id} note={note} active={selectedNoteId === note.id} onSelect={() => onSelectNote(note.id)} onDelete={() => setDelNoteId(note.id)} />
                   ))}
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start h-7 text-[11px] text-slate-500 hover:text-slate-300 hover:bg-white/5 ml-0"
+                    className="w-full justify-start h-7 text-[11px] text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 ml-0"
                     onClick={() => onCreateNote(folder.id)}
                   >
                     <Plus className="h-3 w-3 mr-1" /> Add note
@@ -247,13 +247,13 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
         {/* Unorganized (when "All Notes" selected) */}
         {!search.trim() && selectedFolderId === null && (
           <>
-            <Separator className="my-2 bg-white/5" />
+            <Separator className="my-2 bg-slate-200 dark:bg-white/5" />
             <div className="px-2.5 py-1 flex items-center justify-between">
-              <span className="text-[10px] font-semibold text-slate-600 uppercase tracking-[0.15em]">Unorganized</span>
-              <Badge className="text-[10px] h-4 px-1.5 bg-white/5 text-slate-600 border-0 font-normal">{unorganized.length}</Badge>
+              <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-600 uppercase tracking-[0.15em]">Unorganized</span>
+              <Badge className="text-[10px] h-4 px-1.5 bg-slate-100 dark:bg-white/5 text-slate-400 dark:text-slate-600 border-0 font-normal">{unorganized.length}</Badge>
             </div>
             {unorganized.length === 0 && (
-              <p className="text-[11px] text-slate-600 px-3 py-3 text-center italic">No unorganized notes</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-600 px-3 py-3 text-center italic">No unorganized notes</p>
             )}
             {unorganized.map((n) => (
               <NoteItem key={n.id} note={n} active={selectedNoteId === n.id} onSelect={() => onSelectNote(n.id)} onDelete={() => setDelNoteId(n.id)} />
@@ -264,12 +264,12 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
         {/* Search results */}
         {search.trim() && (
           <>
-            <Separator className="my-2 bg-white/5" />
-            <p className="text-[10px] font-semibold text-slate-600 uppercase tracking-[0.15em] px-2.5 py-1">
+            <Separator className="my-2 bg-slate-200 dark:bg-white/5" />
+            <p className="text-[10px] font-semibold text-slate-400 dark:text-slate-600 uppercase tracking-[0.15em] px-2.5 py-1">
               {filteredNotes.length} result{filteredNotes.length !== 1 ? 's' : ''}
             </p>
             {filteredNotes.length === 0 && (
-              <p className="text-[11px] text-slate-600 px-3 py-3 text-center italic">No matches found</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-600 px-3 py-3 text-center italic">No matches found</p>
             )}
             {filteredNotes.map((n) => (
               <NoteItem key={n.id} note={n} active={selectedNoteId === n.id} onSelect={() => onSelectNote(n.id)} onDelete={() => setDelNoteId(n.id)} showFolder />
@@ -280,12 +280,12 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
         {/* Notes in selected folder (collapsed) */}
         {!search.trim() && selectedFolderId && !expanded.has(selectedFolderId) && (
           <>
-            <Separator className="my-2 bg-white/5" />
+            <Separator className="my-2 bg-slate-200 dark:bg-white/5" />
             {folderNotes(selectedFolderId).length === 0 ? (
               <div className="text-center py-8">
-                <FileText className="h-7 w-7 text-slate-700 mx-auto mb-2" />
-                <p className="text-[11px] text-slate-600 mb-3">No notes in this folder</p>
-                <Button variant="outline" size="sm" className="text-[11px] h-7 border-white/10 text-slate-400 hover:text-white hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
+                <FileText className="h-7 w-7 text-slate-300 dark:text-slate-700 mx-auto mb-2" />
+                <p className="text-[11px] text-slate-400 dark:text-slate-600 mb-3">No notes in this folder</p>
+                <Button variant="outline" size="sm" className="text-[11px] h-7 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
                   <Plus className="h-3 w-3 mr-1" /> Create Note
                 </Button>
               </div>
@@ -300,16 +300,16 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* New Folder Dialog */}
       <Dialog open={showNewFolder} onOpenChange={setShowNewFolder}>
-        <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <DialogHeader>
             <DialogTitle className="text-lg">Create New Folder</DialogTitle>
           </DialogHeader>
           <div className="space-y-5 py-2">
             <div className="space-y-2">
-              <label className="text-sm text-slate-400">Folder Name</label>
+              <label className="text-sm text-slate-500 dark:text-slate-400">Folder Name</label>
               <Input
                 placeholder="e.g. Work, Personal..."
-                className="bg-white/5 border-white/10 text-white placeholder:text-slate-500 focus:border-emerald-500/40 rounded-lg"
+                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 rounded-lg"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && createFolder()}
@@ -317,14 +317,14 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm text-slate-400">Color</label>
+              <label className="text-sm text-slate-500 dark:text-slate-400">Color</label>
               <div className="flex flex-wrap gap-2.5">
                 {COLORS.map((c) => (
                   <button
                     key={c}
                     type="button"
                     className={`h-7 w-7 rounded-full border-2 cursor-pointer transition-all hover:scale-110 ${
-                      newColor === c ? 'border-white scale-110 shadow-lg' : 'border-transparent'
+                      newColor === c ? 'border-slate-900 dark:border-white scale-110 shadow-lg' : 'border-transparent'
                     }`}
                     style={{ backgroundColor: c }}
                     onClick={() => setNewColor(c)}
@@ -335,7 +335,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" size="sm" className="border-white/10 text-slate-300 hover:bg-white/5 hover:text-white">Cancel</Button>
+              <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white">Cancel</Button>
             </DialogClose>
             <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white" onClick={createFolder} disabled={!newName.trim()}>Create Folder</Button>
           </DialogFooter>
@@ -344,11 +344,11 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Rename Dialog */}
       <Dialog open={editId !== null} onOpenChange={() => setEditId(null)}>
-        <DialogContent className="sm:max-w-md bg-slate-900 border-white/10 text-white">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <DialogHeader><DialogTitle>Rename Folder</DialogTitle></DialogHeader>
           <div className="py-2">
             <Input
-              className="bg-white/5 border-white/10 text-white focus:border-emerald-500/40 rounded-lg"
+              className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white focus:border-emerald-500/40 rounded-lg"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' && editId) renameFolder(editId); }}
@@ -357,7 +357,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" size="sm" className="border-white/10 text-slate-300 hover:bg-white/5">Cancel</Button>
+              <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5">Cancel</Button>
             </DialogClose>
             <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white" onClick={() => editId && renameFolder(editId)} disabled={!editName.trim()}>Rename</Button>
           </DialogFooter>
@@ -366,15 +366,15 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Delete Folder Alert */}
       <AlertDialog open={delFolderId !== null} onOpenChange={() => setDelFolderId(null)}>
-        <AlertDialogContent className="bg-slate-900 border-white/10 text-white">
+        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">Delete Folder?</AlertDialogTitle>
-            <AlertDialogDescription className="text-slate-400">
+            <AlertDialogTitle className="text-slate-900 dark:text-white">Delete Folder?</AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-500 dark:text-slate-400">
               Notes inside will be moved to &quot;Unorganized&quot;. This cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="border-white/10 text-slate-300 hover:bg-white/5 hover:text-white">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white">Cancel</AlertDialogCancel>
             <AlertDialogAction className="bg-red-600 hover:bg-red-500 text-white border-0" onClick={() => { if (delFolderId) deleteFolder(delFolderId); setDelFolderId(null); }}>
               Delete
             </AlertDialogAction>
@@ -384,15 +384,15 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Delete Note Alert */}
       <AlertDialog open={delNoteId !== null} onOpenChange={() => setDelNoteId(null)}>
-        <AlertDialogContent className="bg-slate-900 border-white/10 text-white">
+        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-white">Delete Note?</AlertDialogTitle>
-            <AlertDialogDescription className="text-slate-400">
+            <AlertDialogTitle className="text-slate-900 dark:text-white">Delete Note?</AlertDialogTitle>
+            <AlertDialogDescription className="text-slate-500 dark:text-slate-400">
               This note will be permanently deleted. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="border-white/10 text-slate-300 hover:bg-white/5 hover:text-white">Cancel</AlertDialogCancel>
+            <AlertDialogCancel className="border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white">Cancel</AlertDialogCancel>
             <AlertDialogAction className="bg-red-600 hover:bg-red-500 text-white border-0" onClick={() => { if (delNoteId) deleteNote(delNoteId); setDelNoteId(null); }}>
               Delete
             </AlertDialogAction>
@@ -409,23 +409,23 @@ function NoteItem({ note, active, onSelect, onDelete, showFolder = false }: { no
     <div className="group flex items-center">
       <button
         className={`flex-1 flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-all text-left ${
-          active ? 'bg-white/10 text-white font-medium' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'
+          active ? 'bg-emerald-50 dark:bg-white/10 text-emerald-700 dark:text-white font-medium' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200'
         }`}
         onClick={onSelect}
       >
-        <FileText className={`h-3.5 w-3.5 flex-shrink-0 mt-0.5 ${active ? 'text-emerald-400' : 'text-slate-600'}`} />
+        <FileText className={`h-3.5 w-3.5 flex-shrink-0 mt-0.5 ${active ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-600'}`} />
         <div className="min-w-0 flex-1">
           <div className="truncate">{note.title || 'Untitled Note'}</div>
-          <div className="truncate text-[11px] text-slate-600">{preview}</div>
+          <div className="truncate text-[11px] text-slate-400 dark:text-slate-600">{preview}</div>
           {showFolder && note.folder && (
             <div className="flex items-center gap-1 mt-0.5">
               <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: note.folder.color }} />
-              <span className="text-[10px] text-slate-500">{note.folder.name}</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">{note.folder.name}</span>
             </div>
           )}
         </div>
       </button>
-      <Button variant="ghost" size="icon" className="h-5 w-5 opacity-0 group-hover:opacity-100 text-slate-500 hover:text-red-400 hover:bg-red-500/10 flex-shrink-0" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
+      <Button variant="ghost" size="icon" className="h-5 w-5 opacity-0 group-hover:opacity-100 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex-shrink-0" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
         <Trash2 className="h-3 w-3" />
       </Button>
     </div>

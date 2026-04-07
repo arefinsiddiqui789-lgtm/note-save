@@ -33,7 +33,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Separator } from '@/components/ui/separator';
 
 const TEXT_COLORS = [
-  '#ffffff', '#e2e8f0', '#94a3b8', '#64748b', '#475569', '#0f172a',
+  '#1e293b', '#334155', '#475569', '#64748b', '#94a3b8', '#e2e8f0',
   '#ef4444', '#f97316', '#f59e0b', '#eab308', '#84cc16', '#22c55e',
   '#14b8a6', '#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#d946ef',
   '#ec4899', '#fb7185', '#fdba74', '#fde047', '#86efac', '#67e8f9',
@@ -65,14 +65,14 @@ function TBtn({ onClick, active, disabled, tooltip, children }: {
         <TooltipTrigger asChild>
           <Button
             type="button" variant="ghost" size="icon"
-            className={`h-7 w-7 flex-shrink-0 transition-colors ${active ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/5'} ${disabled ? 'opacity-30 pointer-events-none' : ''}`}
+            className={`h-7 w-7 flex-shrink-0 transition-colors ${active ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'} ${disabled ? 'opacity-30 pointer-events-none' : ''}`}
             onClick={onClick}
             disabled={disabled}
           >
             {children}
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom" className="text-[11px] bg-slate-800 border-white/10 text-slate-300">{tooltip}</TooltipContent>
+        <TooltipContent side="bottom" className="text-[11px] bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300">{tooltip}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
@@ -102,7 +102,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 px-2 sm:px-3 py-1.5 border-b border-white/5 bg-white/[0.02]">
+    <div className="flex flex-wrap items-center gap-0.5 px-2 sm:px-3 py-1.5 border-b border-slate-200 dark:border-white/5 bg-slate-50 dark:bg-white/[0.02]">
       {/* Undo / Redo */}
       <TBtn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} tooltip="Undo (Ctrl+Z)">
         <Undo2 className="h-3.5 w-3.5" />
@@ -111,7 +111,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <Redo2 className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Font Family */}
       <Select
@@ -120,13 +120,13 @@ function Toolbar({ editor }: { editor: Editor | null }) {
           else { editor.chain().focus().setFontFamily(v).run(); }
         }}
       >
-        <SelectTrigger className="h-7 w-[100px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
+        <SelectTrigger className="h-7 w-[100px] border-none shadow-none bg-transparent text-[12px] text-slate-500 dark:text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
           <SelectValue placeholder="Font" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-800 border-white/10">
-          <SelectItem value="default" className="text-slate-300 focus:bg-white/10 focus:text-white">Default</SelectItem>
+        <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10">
+          <SelectItem value="default" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">Default</SelectItem>
           {FONTS.map((f) => (
-            <SelectItem key={f} value={f} className="text-slate-300 focus:bg-white/10 focus:text-white" style={{ fontFamily: f }}>{f}</SelectItem>
+            <SelectItem key={f} value={f} className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white" style={{ fontFamily: f }}>{f}</SelectItem>
           ))}
         </SelectContent>
       </Select>
@@ -141,13 +141,13 @@ function Toolbar({ editor }: { editor: Editor | null }) {
           }
         }}
       >
-        <SelectTrigger className="h-7 w-[72px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
+        <SelectTrigger className="h-7 w-[72px] border-none shadow-none bg-transparent text-[12px] text-slate-500 dark:text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
           <SelectValue placeholder="Size" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-800 border-white/10 max-h-60">
-          <SelectItem value="default" className="text-slate-300 focus:bg-white/10 focus:text-white">Default</SelectItem>
+        <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10 max-h-60">
+          <SelectItem value="default" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">Default</SelectItem>
           {FONT_SIZES.map((s) => (
-            <SelectItem key={s} value={s} className="text-slate-300 focus:bg-white/10 focus:text-white">{s}px</SelectItem>
+            <SelectItem key={s} value={s} className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">{s}px</SelectItem>
           ))}
         </SelectContent>
       </Select>
@@ -161,26 +161,26 @@ function Toolbar({ editor }: { editor: Editor | null }) {
           else if (v === 'h3') { editor.chain().focus().toggleHeading({ level: 3 }).run(); }
         }}
       >
-        <SelectTrigger className="h-7 w-[85px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0">
+        <SelectTrigger className="h-7 w-[85px] border-none shadow-none bg-transparent text-[12px] text-slate-500 dark:text-slate-400 focus:ring-0 gap-0">
           <SelectValue placeholder="Style" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-800 border-white/10">
-          <SelectItem value="p" className="text-slate-300 focus:bg-white/10 focus:text-white">
+        <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10">
+          <SelectItem value="p" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">
             <span className="flex items-center gap-2"><Pilcrow className="h-3 w-3" />Normal</span>
           </SelectItem>
-          <SelectItem value="h1" className="text-slate-300 focus:bg-white/10 focus:text-white">
+          <SelectItem value="h1" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">
             <span className="flex items-center gap-2"><Heading1 className="h-3 w-3" />Heading 1</span>
           </SelectItem>
-          <SelectItem value="h2" className="text-slate-300 focus:bg-white/10 focus:text-white">
+          <SelectItem value="h2" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">
             <span className="flex items-center gap-2"><Heading2 className="h-3 w-3" />Heading 2</span>
           </SelectItem>
-          <SelectItem value="h3" className="text-slate-300 focus:bg-white/10 focus:text-white">
+          <SelectItem value="h3" className="text-slate-700 dark:text-slate-300 focus:bg-slate-100 dark:focus:bg-white/10 focus:text-slate-900 dark:focus:text-white">
             <span className="flex items-center gap-2"><span className="text-[10px] font-bold">H3</span>Heading 3</span>
           </SelectItem>
         </SelectContent>
       </Select>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Text Formatting */}
       <TBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} tooltip="Bold (Ctrl+B)">
@@ -205,25 +205,25 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <Code className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Text Color */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5">
+          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5">
             <div className="flex flex-col items-center">
               <Type className="h-3 w-3" />
-              <div className="h-[2px] w-3 rounded-full bg-emerald-400 mt-0.5" />
+              <div className="h-[2px] w-3 rounded-full bg-emerald-500 dark:bg-emerald-400 mt-0.5" />
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-2.5 bg-slate-800 border-white/10" side="bottom">
-          <p className="text-[10px] text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Text Color</p>
+        <PopoverContent className="w-auto p-2.5 bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10" side="bottom">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Text Color</p>
           <div className="grid grid-cols-6 gap-1.5">
             {TEXT_COLORS.map((c) => (
               <button
                 key={c} type="button"
-                className="h-6 w-6 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
+                className="h-6 w-6 rounded border border-slate-200 dark:border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
                 style={{ backgroundColor: c }}
                 onClick={() => editor.chain().focus().setColor(c).run()}
               />
@@ -231,7 +231,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
           </div>
           <button
             type="button"
-            className="mt-2 text-[11px] text-slate-500 hover:text-slate-300 transition-colors w-full text-center"
+            className="mt-2 text-[11px] text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors w-full text-center"
             onClick={() => editor.chain().focus().unsetColor().run()}
           >
             Reset to default
@@ -242,18 +242,18 @@ function Toolbar({ editor }: { editor: Editor | null }) {
       {/* Highlight Color */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5">
+          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5">
             <Highlighter className="h-3.5 w-3.5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-2.5 bg-slate-800 border-white/10" side="bottom">
-          <p className="text-[10px] text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Highlight</p>
+        <PopoverContent className="w-auto p-2.5 bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10" side="bottom">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Highlight</p>
           <div className="flex gap-1.5">
             {HIGHLIGHT_COLORS.map((h) => (
               <button
                 key={h.name} type="button"
-                className="h-6 w-8 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
-                style={{ backgroundColor: h.color === 'transparent' ? '#1e293b' : h.color }}
+                className="h-6 w-8 rounded border border-slate-200 dark:border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
+                style={{ backgroundColor: h.color === 'transparent' ? '#f1f5f9' : h.color }}
                 onClick={() => {
                   if (h.color === 'transparent') { editor.chain().focus().unsetHighlight().run(); }
                   else { editor.chain().focus().toggleHighlight({ color: h.color }).run(); }
@@ -265,7 +265,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         </PopoverContent>
       </Popover>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Text Alignment */}
       <TBtn onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })} tooltip="Align Left">
@@ -281,7 +281,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <AlignJustify className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Lists */}
       <TBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} tooltip="Bullet List">
@@ -294,7 +294,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <ListChecks className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Block Elements */}
       <TBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} tooltip="Blockquote">
@@ -307,7 +307,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <Minus className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Insert */}
       <TBtn onClick={setLink} active={editor.isActive('link')} tooltip="Insert/Edit Link">
@@ -317,7 +317,7 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <ImagePlus className="h-3.5 w-3.5" />
       </TBtn>
 
-      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-slate-200 dark:bg-white/10" />
 
       {/* Clear Formatting */}
       <TBtn
@@ -389,7 +389,7 @@ export default function RichTextEditor({ content, onUpdate, editable = true }: P
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <EditorContent
           editor={editor}
-          className="h-full [&_.tiptap]:text-slate-300 [&_.tiptap]:text-[15px] [&_.tiptap]:leading-relaxed"
+          className="h-full [&_.tiptap]:text-slate-700 dark:[&_.tiptap]:text-slate-300 [&_.tiptap]:text-[15px] [&_.tiptap]:leading-relaxed"
         />
       </div>
     </div>
