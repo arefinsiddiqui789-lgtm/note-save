@@ -1,14 +1,23 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { useStore, Note } from '@/store/note-app';
 import Sidebar from '@/components/note-app/sidebar';
 import RichTextEditor from '@/components/note-app/rich-text-editor';
 import AppLogo from '@/components/note-app/app-logo';
 import ThemeToggle from '@/components/note-app/theme-toggle';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog';
 import {
   FileText,
   Plus,
@@ -32,6 +41,11 @@ export default function HomePage() {
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
   const initialized = useRef(false);
 
+  // Create Note dialog state
+  const [showCreateDialog, setShowCreateDialog] = useState(false);
+  const [newNoteName, setNewNoteName] = useState('');
+  const [pendingFolderId, setPendingFolderId] = useState<string | null>(null);
+
   // Load data on mount
   useEffect(() => {
     if (initialized.current) return;
@@ -54,25 +68,34 @@ export default function HomePage() {
 
   const activeNote = notes.find((n) => n.id === selectedNoteId);
 
-  const createNote = useCallback(async (folderId: string | null) => {
+  const createNote = useCallback((folderId: string | null) => {
+    setPendingFolderId(folderId);
+    setNewNoteName('');
+    setShowCreateDialog(true);
+  }, []);
+
+  const confirmCreateNote = useCallback(async () => {
+    const title = newNoteName.trim() || 'Untitled Note';
+    setShowCreateDialog(false);
     try {
       const res = await fetch('/api/notes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: 'Untitled Note',
+          title,
           content: '',
-          folderId: folderId,
+          folderId: pendingFolderId,
         }),
       });
       const note = await res.json();
       addNote(note);
       setSelectedNoteId(note.id);
-      if (folderId) setSelectedFolderId(folderId);
+      if (pendingFolderId) setSelectedFolderId(pendingFolderId);
+      setNewNoteName('');
     } catch (err) {
       console.error('Failed to create note:', err);
     }
-  }, [addNote, setSelectedNoteId, setSelectedFolderId]);
+  }, [newNoteName, pendingFolderId, addNote, setSelectedNoteId, setSelectedFolderId]);
 
   const handleEditorUpdate = useCallback((html: string) => {
     if (!selectedNoteId) return;
@@ -226,6 +249,37 @@ export default function HomePage() {
             <EmptyState onCreateNote={createNote} noteCount={notes.length} />
           )}
         </div>
+
+        {/* Create Note Dialog */}
+        <Dialog open={showCreateDialog} onOpenChange={(open) => { setShowCreateDialog(open); if (!open) setNewNoteName(''); }}>
+          <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-4">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-lg">
+                <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center">
+                  <Plus className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                Create New Note
+              </DialogTitle>
+            </DialogHeader>
+            <div className="py-2">
+              <label className="text-sm text-slate-500 dark:text-slate-400 mb-2 block">Note Name</label>
+              <Input
+                placeholder="Enter your note name..."
+                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg h-11 text-[15px]"
+                value={newNoteName}
+                onChange={(e) => setNewNoteName(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') confirmCreateNote(); }}
+                autoFocus
+              />
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline" size="sm" className="border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white">Cancel</Button>
+              </DialogClose>
+              <Button size="sm" className="bg-emerald-600 hover:bg-emerald-500 text-white" onClick={confirmCreateNote} disabled={!newNoteName.trim()}>Create</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Footer */}
         <footer className="flex items-center justify-center px-4 py-2.5 border-t border-slate-200/60 dark:border-white/[0.06] bg-slate-50/50 dark:bg-slate-900/50 flex-shrink-0 safe-area-bottom">
