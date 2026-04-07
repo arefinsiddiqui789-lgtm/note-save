@@ -22,78 +22,64 @@ export interface Note {
   folder?: { id: string; name: string; color: string } | null;
 }
 
-interface NoteAppState {
-  // Folders
+interface Store {
   folders: Folder[];
-  setFolders: (folders: Folder[]) => void;
-  addFolder: (folder: Folder) => void;
-  updateFolder: (id: string, data: Partial<Folder>) => void;
+  setFolders: (f: Folder[]) => void;
+  addFolder: (f: Folder) => void;
+  updateFolder: (id: string, d: Partial<Folder>) => void;
   removeFolder: (id: string) => void;
 
-  // Notes
   notes: Note[];
-  setNotes: (notes: Note[]) => void;
-  addNote: (note: Note) => void;
-  updateNote: (id: string, data: Partial<Note>) => void;
+  setNotes: (n: Note[]) => void;
+  addNote: (n: Note) => void;
+  updateNote: (id: string, d: Partial<Note>) => void;
   removeNote: (id: string) => void;
 
-  // Selection
   selectedFolderId: string | null;
   setSelectedFolderId: (id: string | null) => void;
   selectedNoteId: string | null;
   setSelectedNoteId: (id: string | null) => void;
 
-  // UI
   sidebarOpen: boolean;
-  setSidebarOpen: (open: boolean) => void;
+  setSidebarOpen: (o: boolean) => void;
   isSaving: boolean;
-  setIsSaving: (saving: boolean) => void;
+  setIsSaving: (s: boolean) => void;
   hasUnsavedChanges: boolean;
-  setHasUnsavedChanges: (changed: boolean) => void;
+  setHasUnsavedChanges: (c: boolean) => void;
 }
 
-export const useNoteAppStore = create<NoteAppState>((set) => ({
-  // Folders
+export const useStore = create<Store>((set) => ({
   folders: [],
   setFolders: (folders) => set({ folders }),
-  addFolder: (folder) => set((state) => ({ folders: [...state.folders, folder] })),
+  addFolder: (folder) => set((s) => ({ folders: [...s.folders, folder] })),
   updateFolder: (id, data) =>
-    set((state) => ({
-      folders: state.folders.map((f) => (f.id === id ? { ...f, ...data } : f)),
-    })),
+    set((s) => ({ folders: s.folders.map((f) => (f.id === id ? { ...f, ...data } : f)) })),
   removeFolder: (id) =>
-    set((state) => ({
-      folders: state.folders.filter((f) => f.id !== id),
-      notes: state.notes.map((n) =>
-        n.folderId === id ? { ...n, folderId: null, folder: null } : n
-      ),
+    set((s) => ({
+      folders: s.folders.filter((f) => f.id !== id),
+      notes: s.notes.map((n) => (n.folderId === id ? { ...n, folderId: null, folder: null } : n)),
     })),
 
-  // Notes
   notes: [],
   setNotes: (notes) => set({ notes }),
-  addNote: (note) => set((state) => ({ notes: [...state.notes, note] })),
+  addNote: (note) => set((s) => ({ notes: [...s.notes, note] })),
   updateNote: (id, data) =>
-    set((state) => ({
-      notes: state.notes.map((n) => (n.id === id ? { ...n, ...data } : n)),
-    })),
+    set((s) => ({ notes: s.notes.map((n) => (n.id === id ? { ...n, ...data } : n)) })),
   removeNote: (id) =>
-    set((state) => ({
-      notes: state.notes.filter((n) => n.id !== id),
-      selectedNoteId: state.selectedNoteId === id ? null : state.selectedNoteId,
+    set((s) => ({
+      notes: s.notes.filter((n) => n.id !== id),
+      selectedNoteId: s.selectedNoteId === id ? null : s.selectedNoteId,
     })),
 
-  // Selection
   selectedFolderId: null,
   setSelectedFolderId: (id) => set({ selectedFolderId: id }),
   selectedNoteId: null,
   setSelectedNoteId: (id) => set({ selectedNoteId: id }),
 
-  // UI
   sidebarOpen: true,
-  setSidebarOpen: (open) => set({ sidebarOpen: open }),
+  setSidebarOpen: (o) => set({ sidebarOpen: o }),
   isSaving: false,
-  setIsSaving: (saving) => set({ isSaving: saving }),
+  setIsSaving: (s) => set({ isSaving: s }),
   hasUnsavedChanges: false,
-  setHasUnsavedChanges: (changed) => set({ hasUnsavedChanges: changed }),
+  setHasUnsavedChanges: (c) => set({ hasUnsavedChanges: c }),
 }));

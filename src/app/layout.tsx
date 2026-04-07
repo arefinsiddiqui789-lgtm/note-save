@@ -14,10 +14,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NotePad Pro - Rich Text Notes",
-  description: "A powerful note-taking app with rich text editing, folder organization, and auto-save.",
+  title: "Save Note - Your Smart Note Manager",
+  description: "A modern, beautiful note-taking app with folders, rich text editing, and auto-save. Built with love.",
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>",
   },
 };
 
@@ -27,12 +27,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-950 text-white overflow-hidden`}
       >
         {children}
-        <Toaster />
+        <Toaster
+          toastOptions={{
+            style: {
+              background: '#1e293b',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: '#e2e8f0',
+            },
+          }}
+        />
       </body>
     </html>
   );

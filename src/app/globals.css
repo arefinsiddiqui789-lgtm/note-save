@@ -45,71 +45,58 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(0.115 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.155 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.155 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.72 0.17 165);
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.2 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.2 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.72 0.17 165);
+  --chart-1: oklch(0.72 0.17 165);
+  --chart-2: oklch(0.7 0.17 185);
+  --chart-3: oklch(0.6 0.15 170);
+  --chart-4: oklch(0.75 0.15 160);
+  --chart-5: oklch(0.65 0.2 25);
+  --sidebar: oklch(0.13 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.72 0.17 165);
+  --sidebar-primary-foreground: oklch(0.15 0 0);
+  --sidebar-accent: oklch(0.2 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 8%);
+  --sidebar-ring: oklch(0.72 0.17 165);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.115 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.155 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.155 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.72 0.17 165);
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.2 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.2 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.2 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.72 0.17 165);
 }
 
 @layer base {
@@ -121,144 +108,44 @@
   }
 }
 
-/* TipTap Editor Styles */
-.tiptap {
-  outline: none;
-}
+/* TipTap Editor */
+.tiptap { outline: none; }
 
 .tiptap p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #adb5bd;
+  color: #475569;
   pointer-events: none;
   height: 0;
 }
 
-.tiptap h1 {
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-}
-
-.tiptap h2 {
-  font-size: 1.5em;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-top: 0.8em;
-  margin-bottom: 0.4em;
-}
-
-.tiptap h3 {
-  font-size: 1.25em;
-  font-weight: 600;
-  line-height: 1.4;
-  margin-top: 0.6em;
-  margin-bottom: 0.3em;
-}
-
-.tiptap p {
-  margin-bottom: 0.75em;
-}
-
-.tiptap ul {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin-bottom: 0.75em;
-}
-
-.tiptap ol {
-  list-style-type: decimal;
-  padding-left: 1.5em;
-  margin-bottom: 0.75em;
-}
-
-.tiptap li {
-  margin-bottom: 0.25em;
-}
-
-.tiptap li p {
-  margin-bottom: 0.25em;
-}
-
-.tiptap blockquote {
-  border-left: 4px solid var(--border);
-  padding-left: 1em;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0.75em;
-  font-style: italic;
-  color: var(--muted-foreground);
-}
-
-.tiptap code {
-  background-color: var(--muted);
-  border-radius: 0.25em;
-  padding: 0.15em 0.3em;
-  font-size: 0.9em;
-  font-family: var(--font-mono);
-}
-
-.tiptap pre {
-  background-color: var(--muted);
-  border-radius: 0.5em;
-  padding: 1em;
-  margin-bottom: 0.75em;
-  overflow-x: auto;
-}
-
-.tiptap pre code {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  font-size: 0.875em;
-}
-
-.tiptap hr {
-  border: none;
-  border-top: 2px solid var(--border);
-  margin: 1.5em 0;
-}
-
-.tiptap img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5em;
-  margin: 1em 0;
-}
-
-.tiptap a {
-  color: #3b82f6;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.tiptap a:hover {
-  color: #2563eb;
-}
-
-.tiptap mark {
-  border-radius: 0.2em;
-  padding: 0.1em 0.2em;
-}
+.tiptap h1 { font-size: 1.875em; font-weight: 700; line-height: 1.2; margin-top: 1.2em; margin-bottom: 0.5em; color: #f1f5f9; }
+.tiptap h2 { font-size: 1.5em; font-weight: 600; line-height: 1.3; margin-top: 1em; margin-bottom: 0.4em; color: #e2e8f0; }
+.tiptap h3 { font-size: 1.25em; font-weight: 600; line-height: 1.4; margin-top: 0.8em; margin-bottom: 0.3em; color: #cbd5e1; }
+.tiptap p { margin-bottom: 0.85em; }
+.tiptap ul { list-style-type: disc; padding-left: 1.5em; margin-bottom: 0.85em; }
+.tiptap ol { list-style-type: decimal; padding-left: 1.5em; margin-bottom: 0.85em; }
+.tiptap li { margin-bottom: 0.25em; }
+.tiptap li p { margin-bottom: 0.25em; }
+.tiptap blockquote { border-left: 3px solid #10b981; padding-left: 1em; margin-left: 0; margin-right: 0; margin-bottom: 0.85em; font-style: italic; color: #94a3b8; background: rgba(16, 185, 129, 0.05); padding: 0.5em 1em; border-radius: 0 6px 6px 0; }
+.tiptap code { background-color: rgba(255,255,255,0.07); border-radius: 4px; padding: 0.15em 0.35em; font-size: 0.9em; font-family: var(--font-mono); color: #a5f3fc; }
+.tiptap pre { background-color: #0f172a; border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 1em; margin-bottom: 0.85em; overflow-x: auto; }
+.tiptap pre code { background: none; padding: 0; border-radius: 0; font-size: 0.875em; color: #e2e8f0; }
+.tiptap hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 2em 0; }
+.tiptap img { max-width: 100%; height: auto; border-radius: 8px; margin: 1em 0; }
+.tiptap a { color: #34d399; text-decoration: underline; cursor: pointer; text-underline-offset: 2px; }
+.tiptap a:hover { color: #6ee7b7; }
+.tiptap mark { border-radius: 2px; padding: 0.1em 0.2em; }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+.custom-scrollbar::-webkit-scrollbar,
+::-webkit-scrollbar { width: 5px; height: 5px; }
+.custom-scrollbar::-webkit-scrollbar-track,
+::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--muted-foreground);
-  border-radius: 3px;
-  opacity: 0.3;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  opacity: 0.5;
-}
+/* Selection */
+::selection { background: rgba(16, 185, 129, 0.3); color: #f0fdf4; }
