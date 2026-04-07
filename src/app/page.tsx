@@ -17,6 +17,7 @@ import {
   Save,
   Clock,
   Loader2,
+  FolderPlus,
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -239,56 +240,62 @@ export default function HomePage() {
 
 function EmptyState({ onCreateNote, noteCount }: { onCreateNote: (folderId: string | null) => void; noteCount: number }) {
   return (
-    <div className="flex flex-col items-center justify-center h-full px-4 sm:px-6">
-      <div className="w-full max-w-sm sm:max-w-md text-center">
+    <div className="flex flex-col items-center justify-center h-full px-5 sm:px-6 overflow-y-auto">
+      <div className="w-full max-w-sm sm:max-w-md text-center py-6 sm:py-0">
         {/* Animated icon */}
-        <div className="relative mx-auto mb-6 sm:mb-8">
-          <div className="h-16 w-16 sm:h-20 sm:w-20 mx-auto relative">
+        <div className="relative mx-auto mb-5 sm:mb-8">
+          <div className="h-[72px] w-[72px] sm:h-20 sm:w-20 mx-auto relative">
             {/* Background glow */}
-            <div className="absolute inset-0 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-2xl sm:rounded-3xl rotate-6 animate-pulse" />
-            <div className="absolute inset-0 bg-emerald-500/5 dark:bg-emerald-500/[0.03] rounded-2xl sm:rounded-3xl -rotate-6" />
+            <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-br from-emerald-400/15 via-cyan-400/10 to-teal-400/10 dark:from-emerald-500/8 dark:via-cyan-500/5 dark:to-teal-500/5 rounded-3xl sm:rounded-[28px] rotate-6 animate-pulse" />
+            <div className="absolute -inset-1 sm:-inset-2 bg-gradient-to-tr from-emerald-500/5 to-cyan-500/5 dark:from-emerald-500/[0.03] dark:to-cyan-500/[0.03] rounded-2xl sm:rounded-3xl -rotate-3" />
             {/* Icon container */}
-            <div className="relative h-full w-full bg-gradient-to-br from-emerald-50 to-cyan-50 dark:from-emerald-500/10 dark:to-cyan-500/10 rounded-2xl sm:rounded-3xl flex items-center justify-center border border-emerald-200/40 dark:border-emerald-500/10">
-              <FileText className="h-7 w-7 sm:h-9 sm:w-9 text-emerald-500 dark:text-emerald-400" />
+            <div className="relative h-full w-full bg-gradient-to-br from-emerald-50 via-white to-cyan-50 dark:from-emerald-500/10 dark:via-slate-800/50 dark:to-cyan-500/10 rounded-2xl sm:rounded-3xl flex items-center justify-center border border-emerald-200/50 dark:border-emerald-500/15 shadow-sm shadow-emerald-500/5 dark:shadow-none">
+              <div className="relative">
+                <FileText className="h-8 w-8 sm:h-9 sm:w-9 text-emerald-500 dark:text-emerald-400" />
+                {/* Small plus badge */}
+                <div className="absolute -top-1.5 -right-1.5 h-4 w-4 sm:h-5 sm:w-5 bg-emerald-500 dark:bg-emerald-400 rounded-full flex items-center justify-center shadow-sm">
+                  <Plus className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Title */}
-        <h2 className="text-lg sm:text-xl font-semibold text-slate-800 dark:text-slate-100 mb-2">
+        <h2 className="text-[17px] sm:text-xl font-bold text-slate-800 dark:text-slate-100 mb-1.5 sm:mb-2 tracking-tight">
           {noteCount === 0 ? 'Create Your First Note' : 'Select a Note'}
         </h2>
 
         {/* Description */}
-        <p className="text-sm sm:text-[15px] text-slate-400 dark:text-slate-500 mb-6 sm:mb-8 leading-relaxed max-w-[280px] sm:max-w-sm mx-auto">
+        <p className="text-[13px] sm:text-[15px] text-slate-400 dark:text-slate-500 mb-6 sm:mb-8 leading-relaxed max-w-[260px] sm:max-w-sm mx-auto">
           {noteCount === 0
             ? 'Start capturing your thoughts, ideas, and notes with a beautiful rich text editor.'
             : 'Choose a note from the sidebar or create a new one to get started.'}
         </p>
 
         {/* Action buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <Button
             onClick={() => onCreateNote(null)}
-            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white h-11 sm:h-10 px-6 text-sm font-medium rounded-xl shadow-lg shadow-emerald-600/20 dark:shadow-emerald-500/10 transition-all"
+            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 active:scale-[0.98] text-white h-12 sm:h-10 px-8 text-[15px] sm:text-sm font-semibold rounded-2xl sm:rounded-xl shadow-lg shadow-emerald-600/25 dark:shadow-emerald-500/15 transition-all"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-[18px] w-[18px] sm:h-4 sm:w-4 mr-2" />
             Create Note
           </Button>
 
           {noteCount > 0 && (
-            <p className="text-xs text-slate-400 dark:text-slate-600">
+            <p className="text-xs text-slate-400 dark:text-slate-600 order-first sm:order-last">
               You have {noteCount} note{noteCount !== 1 ? 's' : ''} in your collection
             </p>
           )}
         </div>
 
-        {/* Feature highlights - mobile responsive grid */}
+        {/* Feature highlights - mobile responsive */}
         {noteCount === 0 && (
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 mt-8 sm:mt-10 w-full max-w-[320px] sm:max-w-xs mx-auto">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-4 mt-7 sm:mt-10 w-full max-w-[300px] sm:max-w-xs mx-auto">
             <FeatureCard
               icon={
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-[22px] sm:w-[22px]" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
                   <polyline points="14 2 14 8 20 8" />
                 </svg>
@@ -297,7 +304,7 @@ function EmptyState({ onCreateNote, noteCount }: { onCreateNote: (folderId: stri
             />
             <FeatureCard
               icon={
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-[22px] sm:w-[22px]" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                 </svg>
               }
@@ -305,7 +312,7 @@ function EmptyState({ onCreateNote, noteCount }: { onCreateNote: (folderId: stri
             />
             <FeatureCard
               icon={
-                <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-[22px] sm:w-[22px]" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
                   <polyline points="17 21 17 13 7 13 7 21" />
                   <polyline points="7 3 7 8 15 8" />
@@ -315,6 +322,20 @@ function EmptyState({ onCreateNote, noteCount }: { onCreateNote: (folderId: stri
             />
           </div>
         )}
+
+        {/* Quick tip for mobile */}
+        {noteCount === 0 && (
+          <div className="mt-7 sm:mt-10 px-3 py-3 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.05] max-w-[280px] sm:max-w-sm mx-auto">
+            <p className="text-[11px] sm:text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+              <span className="font-semibold text-slate-500 dark:text-slate-400">Quick tip:</span> Use the{' '}
+              <span className="inline-flex items-center gap-0.5">
+                <FolderPlus className="h-3 w-3 text-emerald-500 dark:text-emerald-400" />
+                <span className="font-medium text-emerald-600 dark:text-emerald-400">+</span>
+              </span>{' '}
+              button in the sidebar to create folders &amp; organize your notes.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -322,8 +343,8 @@ function EmptyState({ onCreateNote, noteCount }: { onCreateNote: (folderId: stri
 
 function FeatureCard({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex flex-col items-center gap-2 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-white/[0.03] border border-slate-100 dark:border-white/[0.05] transition-colors hover:bg-slate-100 dark:hover:bg-white/[0.05]">
-      <div className="text-emerald-500 dark:text-emerald-400">
+    <div className="flex flex-col items-center gap-1.5 sm:gap-2 p-3 sm:p-4 rounded-2xl sm:rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/60 dark:border-white/[0.06] shadow-sm shadow-slate-200/30 dark:shadow-none transition-colors hover:bg-emerald-50 dark:hover:bg-white/[0.05] hover:border-emerald-200/50 dark:hover:border-emerald-500/10 active:scale-[0.97]">
+      <div className="flex items-center justify-center h-9 w-9 sm:h-10 sm:w-10 rounded-xl sm:rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-500 dark:text-emerald-400">
         {icon}
       </div>
       <span className="text-[11px] sm:text-xs font-medium text-slate-500 dark:text-slate-400">
