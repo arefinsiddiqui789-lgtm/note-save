@@ -20,3 +20,28 @@ Stage Summary:
 - Features: folders CRUD, notes CRUD, rich text editor, auto-save, search, timestamps, keyboard shortcuts, download/print
 - Dark mode design with emerald/cyan gradient accent colors
 - Responsive design with mobile sidebar sheet
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Activate all toolbar buttons in the rich text editor
+
+Work Log:
+- Installed missing TipTap extensions: @tiptap/extension-superscript, @tiptap/extension-subscript, @tiptap/extension-font-size, @tiptap/extension-task-list, @tiptap/extension-task-item, @tiptap/extension-image
+- Added Link extension (was imported but not registered) and Image extension to the editor
+- Added FontSize extension with setFontSize/unsetFontSize commands
+- Added Superscript and Subscript toggle buttons
+- Added Checklist (TaskList/TaskItem) button with custom checkbox styling
+- Added Insert Image button with URL prompt
+- Added Clear Formatting button (unsetAllMarks + setParagraph)
+- Added Font Size selector dropdown (8px - 72px)
+- Added "Reset to default" button for text color
+- Added 7th highlight color (Orange)
+- Updated globals.css with task list checkbox styles, editor image/link styles, superscript/subscript styles
+- Fixed FontSize extension usage (uses setFontSize command from the extension)
+
+Stage Summary:
+- All 20+ toolbar buttons are now fully active and functional
+- New buttons: Superscript, Subscript, Checklist, Insert Image, Clear Formatting, Font Size selector
+- Previously non-functional buttons (Link, Image) now work properly
+- Custom dark-mode styled checkboxes for task lists

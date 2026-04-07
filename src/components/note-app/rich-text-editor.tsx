@@ -9,6 +9,13 @@ import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import Placeholder from '@tiptap/extension-placeholder';
 import { FontFamily } from '@tiptap/extension-font-family';
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
+import Superscript from '@tiptap/extension-superscript';
+import Subscript from '@tiptap/extension-subscript';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import FontSize from '@tiptap/extension-font-size';
 import { useCallback, useEffect } from 'react';
 import {
   Bold, Italic, Underline as UnderlineIcon, Strikethrough,
@@ -16,12 +23,14 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignJustify,
   Quote, Minus, Undo2, Redo2, Link as LinkIcon,
   Highlighter, Type, Pilcrow, CodeSquare,
+  ImagePlus, Superscript as SuperscriptIcon, Subscript as SubscriptIcon,
+  ListChecks, RemoveFormatting,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 
 const TEXT_COLORS = [
   '#ffffff', '#e2e8f0', '#94a3b8', '#64748b', '#475569', '#0f172a',
@@ -36,17 +45,30 @@ const HIGHLIGHT_COLORS = [
   { name: 'Cyan', color: '#a5f3fc' },
   { name: 'Pink', color: '#fecdd3' },
   { name: 'Purple', color: '#e9d5ff' },
+  { name: 'Orange', color: '#fed7aa' },
   { name: 'Remove', color: 'transparent' },
 ];
 
 const FONTS = ['Inter', 'Arial', 'Georgia', 'Times New Roman', 'Courier New', 'Verdana', 'Trebuchet MS'];
 
-function TBtn({ onClick, active, disabled, tooltip, children }: { onClick: () => void; active?: boolean; disabled?: boolean; tooltip: string; children: React.ReactNode }) {
+const FONT_SIZES = [
+  '8', '9', '10', '11', '12', '14', '16', '18', '20', '24', '28', '32', '36', '48', '64', '72',
+];
+
+function TBtn({ onClick, active, disabled, tooltip, children }: {
+  onClick: () => void; active?: boolean; disabled?: boolean;
+  tooltip: string; children: React.ReactNode;
+}) {
   return (
-    <TooltipProvider delayDuration={150}>
+    <TooltipProvider delayDuration={120}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button type="button" variant="ghost" size="icon" className={`h-7 w-7 ${active ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/5'}`} onClick={onClick} disabled={disabled}>
+          <Button
+            type="button" variant="ghost" size="icon"
+            className={`h-7 w-7 flex-shrink-0 transition-colors ${active ? 'bg-emerald-500/20 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/5'} ${disabled ? 'opacity-30 pointer-events-none' : ''}`}
+            onClick={onClick}
+            disabled={disabled}
+          >
             {children}
           </Button>
         </TooltipTrigger>
@@ -57,11 +79,19 @@ function TBtn({ onClick, active, disabled, tooltip, children }: { onClick: () =>
 }
 
 function Toolbar({ editor }: { editor: Editor | null }) {
+  const addImage = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt('Enter image URL:');
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+
   const setLink = useCallback(() => {
     if (!editor) return;
     const prev = editor.getAttributes('link').href;
     const url = window.prompt('Enter URL:', prev || 'https://');
-    if (!url) return;
+    if (url === null) return;
     if (url === '') {
       editor.chain().focus().extendMarkRange('link').unsetLink().run();
     } else {
@@ -72,43 +102,112 @@ function Toolbar({ editor }: { editor: Editor | null }) {
   if (!editor) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-0.5 px-3 py-1.5 border-b border-white/5 bg-white/[0.02]">
-      <TBtn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} tooltip="Undo"><Undo2 className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} tooltip="Redo"><Redo2 className="h-3.5 w-3.5" /></TBtn>
+    <div className="flex flex-wrap items-center gap-0.5 px-2 sm:px-3 py-1.5 border-b border-white/5 bg-white/[0.02]">
+      {/* Undo / Redo */}
+      <TBtn onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} tooltip="Undo (Ctrl+Z)">
+        <Undo2 className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} tooltip="Redo (Ctrl+Y)">
+        <Redo2 className="h-3.5 w-3.5" />
+      </TBtn>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
-      <Select onValueChange={(v) => { if (v === 'default') { editor.chain().focus().unsetFontFamily().run(); } else { editor.chain().focus().setFontFamily(v).run(); } }}>
-        <SelectTrigger className="h-7 w-[110px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0">
+      {/* Font Family */}
+      <Select
+        onValueChange={(v) => {
+          if (v === 'default') { editor.chain().focus().unsetFontFamily().run(); }
+          else { editor.chain().focus().setFontFamily(v).run(); }
+        }}
+      >
+        <SelectTrigger className="h-7 w-[100px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
           <SelectValue placeholder="Font" />
         </SelectTrigger>
         <SelectContent className="bg-slate-800 border-white/10">
           <SelectItem value="default" className="text-slate-300 focus:bg-white/10 focus:text-white">Default</SelectItem>
-          {FONTS.map((f) => <SelectItem key={f} value={f} className="text-slate-300 focus:bg-white/10 focus:text-white" style={{ fontFamily: f }}>{f}</SelectItem>)}
+          {FONTS.map((f) => (
+            <SelectItem key={f} value={f} className="text-slate-300 focus:bg-white/10 focus:text-white" style={{ fontFamily: f }}>{f}</SelectItem>
+          ))}
         </SelectContent>
       </Select>
 
-      <Select onValueChange={(v) => { if (v === 'p') { editor.chain().focus().setParagraph().run(); } else { editor.chain().focus().toggleHeading({ level: Number(v.replace('h', '')) as 1 | 2 | 3 }).run(); } }}>
-        <SelectTrigger className="h-7 w-[90px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0">
+      {/* Font Size */}
+      <Select
+        onValueChange={(v) => {
+          if (v === 'default') {
+            editor.chain().focus().unsetFontSize().run();
+          } else {
+            editor.chain().focus().setFontSize(v + 'px').run();
+          }
+        }}
+      >
+        <SelectTrigger className="h-7 w-[72px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0 hidden sm:inline-flex">
+          <SelectValue placeholder="Size" />
+        </SelectTrigger>
+        <SelectContent className="bg-slate-800 border-white/10 max-h-60">
+          <SelectItem value="default" className="text-slate-300 focus:bg-white/10 focus:text-white">Default</SelectItem>
+          {FONT_SIZES.map((s) => (
+            <SelectItem key={s} value={s} className="text-slate-300 focus:bg-white/10 focus:text-white">{s}px</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {/* Heading Style */}
+      <Select
+        onValueChange={(v) => {
+          if (v === 'p') { editor.chain().focus().setParagraph().run(); }
+          else if (v === 'h1') { editor.chain().focus().toggleHeading({ level: 1 }).run(); }
+          else if (v === 'h2') { editor.chain().focus().toggleHeading({ level: 2 }).run(); }
+          else if (v === 'h3') { editor.chain().focus().toggleHeading({ level: 3 }).run(); }
+        }}
+      >
+        <SelectTrigger className="h-7 w-[85px] border-none shadow-none bg-transparent text-[12px] text-slate-400 focus:ring-0 gap-0">
           <SelectValue placeholder="Style" />
         </SelectTrigger>
         <SelectContent className="bg-slate-800 border-white/10">
-          <SelectItem value="p" className="text-slate-300 focus:bg-white/10 focus:text-white"><span className="flex items-center gap-2"><Pilcrow className="h-3 w-3" />Normal</span></SelectItem>
-          <SelectItem value="h1" className="text-slate-300 focus:bg-white/10 focus:text-white"><span className="flex items-center gap-2"><Heading1 className="h-3 w-3" />Heading 1</span></SelectItem>
-          <SelectItem value="h2" className="text-slate-300 focus:bg-white/10 focus:text-white"><span className="flex items-center gap-2"><Heading2 className="h-3 w-3" />Heading 2</span></SelectItem>
-          <SelectItem value="h3" className="text-slate-300 focus:bg-white/10 focus:text-white"><span className="flex items-center gap-2"><Heading1 className="h-3 w-3" />Heading 3</span></SelectItem>
+          <SelectItem value="p" className="text-slate-300 focus:bg-white/10 focus:text-white">
+            <span className="flex items-center gap-2"><Pilcrow className="h-3 w-3" />Normal</span>
+          </SelectItem>
+          <SelectItem value="h1" className="text-slate-300 focus:bg-white/10 focus:text-white">
+            <span className="flex items-center gap-2"><Heading1 className="h-3 w-3" />Heading 1</span>
+          </SelectItem>
+          <SelectItem value="h2" className="text-slate-300 focus:bg-white/10 focus:text-white">
+            <span className="flex items-center gap-2"><Heading2 className="h-3 w-3" />Heading 2</span>
+          </SelectItem>
+          <SelectItem value="h3" className="text-slate-300 focus:bg-white/10 focus:text-white">
+            <span className="flex items-center gap-2"><span className="text-[10px] font-bold">H3</span>Heading 3</span>
+          </SelectItem>
         </SelectContent>
       </Select>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
-      <TBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} tooltip="Bold"><Bold className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} tooltip="Italic"><Italic className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} tooltip="Underline"><UnderlineIcon className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} tooltip="Strikethrough"><Strikethrough className="h-3.5 w-3.5" /></TBtn>
+      {/* Text Formatting */}
+      <TBtn onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive('bold')} tooltip="Bold (Ctrl+B)">
+        <Bold className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive('italic')} tooltip="Italic (Ctrl+I)">
+        <Italic className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive('underline')} tooltip="Underline (Ctrl+U)">
+        <UnderlineIcon className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleStrike().run()} active={editor.isActive('strike')} tooltip="Strikethrough">
+        <Strikethrough className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleSuperscript().run()} active={editor.isActive('superscript')} tooltip="Superscript">
+        <SuperscriptIcon className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleSubscript().run()} active={editor.isActive('subscript')} tooltip="Subscript">
+        <SubscriptIcon className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive('code')} tooltip="Inline Code">
+        <Code className="h-3.5 w-3.5" />
+      </TBtn>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
+      {/* Text Color */}
       <Popover>
         <PopoverTrigger asChild>
           <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5">
@@ -118,47 +217,119 @@ function Toolbar({ editor }: { editor: Editor | null }) {
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-2 bg-slate-800 border-white/10" side="bottom">
-          <div className="grid grid-cols-6 gap-1">
+        <PopoverContent className="w-auto p-2.5 bg-slate-800 border-white/10" side="bottom">
+          <p className="text-[10px] text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Text Color</p>
+          <div className="grid grid-cols-6 gap-1.5">
             {TEXT_COLORS.map((c) => (
-              <button key={c} type="button" className="h-6 w-6 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all" style={{ backgroundColor: c }} onClick={() => editor.chain().focus().setColor(c).run()} />
+              <button
+                key={c} type="button"
+                className="h-6 w-6 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
+                style={{ backgroundColor: c }}
+                onClick={() => editor.chain().focus().setColor(c).run()}
+              />
             ))}
           </div>
+          <button
+            type="button"
+            className="mt-2 text-[11px] text-slate-500 hover:text-slate-300 transition-colors w-full text-center"
+            onClick={() => editor.chain().focus().unsetColor().run()}
+          >
+            Reset to default
+          </button>
         </PopoverContent>
       </Popover>
 
+      {/* Highlight Color */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5"><Highlighter className="h-3.5 w-3.5" /></Button>
+          <Button type="button" variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-white hover:bg-white/5">
+            <Highlighter className="h-3.5 w-3.5" />
+          </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-2 bg-slate-800 border-white/10" side="bottom">
+        <PopoverContent className="w-auto p-2.5 bg-slate-800 border-white/10" side="bottom">
+          <p className="text-[10px] text-slate-500 mb-1.5 font-medium uppercase tracking-wider">Highlight</p>
           <div className="flex gap-1.5">
             {HIGHLIGHT_COLORS.map((h) => (
-              <button key={h.name} type="button" className="h-6 w-8 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all" style={{ backgroundColor: h.color === 'transparent' ? '#1e293b' : h.color }} onClick={() => h.color === 'transparent' ? editor.chain().focus().unsetHighlight().run() : editor.chain().focus().toggleHighlight({ color: h.color }).run()} title={h.name} />
+              <button
+                key={h.name} type="button"
+                className="h-6 w-8 rounded border border-white/10 cursor-pointer hover:ring-2 hover:ring-emerald-500/50 transition-all hover:scale-110"
+                style={{ backgroundColor: h.color === 'transparent' ? '#1e293b' : h.color }}
+                onClick={() => {
+                  if (h.color === 'transparent') { editor.chain().focus().unsetHighlight().run(); }
+                  else { editor.chain().focus().toggleHighlight({ color: h.color }).run(); }
+                }}
+                title={h.name}
+              />
             ))}
           </div>
         </PopoverContent>
       </Popover>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
-      <TBtn onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })} tooltip="Align Left"><AlignLeft className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })} tooltip="Align Center"><AlignCenter className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })} tooltip="Align Right"><AlignRight className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().setTextAlign('justify').run()} active={editor.isActive({ textAlign: 'justify' })} tooltip="Justify"><AlignJustify className="h-3.5 w-3.5" /></TBtn>
+      {/* Text Alignment */}
+      <TBtn onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })} tooltip="Align Left">
+        <AlignLeft className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })} tooltip="Align Center">
+        <AlignCenter className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })} tooltip="Align Right">
+        <AlignRight className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().setTextAlign('justify').run()} active={editor.isActive({ textAlign: 'justify' })} tooltip="Justify">
+        <AlignJustify className="h-3.5 w-3.5" />
+      </TBtn>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
-      <TBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} tooltip="Bullet List"><List className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} tooltip="Numbered List"><ListOrdered className="h-3.5 w-3.5" /></TBtn>
+      {/* Lists */}
+      <TBtn onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive('bulletList')} tooltip="Bullet List">
+        <List className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')} tooltip="Numbered List">
+        <ListOrdered className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleTaskList().run()} active={editor.isActive('taskList')} tooltip="Checklist">
+        <ListChecks className="h-3.5 w-3.5" />
+      </TBtn>
 
-      <div className="w-px h-5 bg-white/10 mx-1" />
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
 
-      <TBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} tooltip="Quote"><Quote className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleCode().run()} active={editor.isActive('code')} tooltip="Code"><Code className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor.isActive('codeBlock')} tooltip="Code Block"><CodeSquare className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={() => editor.chain().focus().setHorizontalRule().run()} tooltip="Divider"><Minus className="h-3.5 w-3.5" /></TBtn>
-      <TBtn onClick={setLink} active={editor.isActive('link')} tooltip="Link"><LinkIcon className="h-3.5 w-3.5" /></TBtn>
+      {/* Block Elements */}
+      <TBtn onClick={() => editor.chain().focus().toggleBlockquote().run()} active={editor.isActive('blockquote')} tooltip="Blockquote">
+        <Quote className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().toggleCodeBlock().run()} active={editor.isActive('codeBlock')} tooltip="Code Block">
+        <CodeSquare className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={() => editor.chain().focus().setHorizontalRule().run()} tooltip="Horizontal Rule">
+        <Minus className="h-3.5 w-3.5" />
+      </TBtn>
+
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+
+      {/* Insert */}
+      <TBtn onClick={setLink} active={editor.isActive('link')} tooltip="Insert/Edit Link">
+        <LinkIcon className="h-3.5 w-3.5" />
+      </TBtn>
+      <TBtn onClick={addImage} tooltip="Insert Image">
+        <ImagePlus className="h-3.5 w-3.5" />
+      </TBtn>
+
+      <Separator orientation="vertical" className="h-5 mx-1 bg-white/10" />
+
+      {/* Clear Formatting */}
+      <TBtn
+        onClick={() => editor.chain().focus()
+          .unsetAllMarks()
+          .setParagraph()
+          .run()
+        }
+        tooltip="Clear Formatting"
+      >
+        <RemoveFormatting className="h-3.5 w-3.5" />
+      </TBtn>
     </div>
   );
 }
@@ -172,13 +343,30 @@ interface Props {
 export default function RichTextEditor({ content, onUpdate, editable = true }: Props) {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
+      StarterKit.configure({
+        heading: { levels: [1, 2, 3] },
+      }),
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
-      TextStyle, Color,
+      TextStyle,
+      Color,
       Highlight.configure({ multicolor: true }),
       Placeholder.configure({ placeholder: 'Start writing your note...' }),
       FontFamily,
+      FontSize,
+      Link.configure({
+        openOnClick: false,
+        HTMLAttributes: { class: 'editor-link', target: '_blank' },
+      }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: { class: 'editor-image' },
+      }),
+      Superscript,
+      Subscript,
+      TaskList,
+      TaskItem.configure({ nested: true }),
     ],
     content,
     editable,
@@ -198,7 +386,10 @@ export default function RichTextEditor({ content, onUpdate, editable = true }: P
     <div className="flex flex-col h-full">
       {editable && <Toolbar editor={editor} />}
       <div className="flex-1 overflow-y-auto custom-scrollbar">
-        <EditorContent editor={editor} className="h-full [&_.tiptap]:text-slate-300 [&_.tiptap]:text-[15px] [&_.tiptap]:leading-relaxed" />
+        <EditorContent
+          editor={editor}
+          className="h-full [&_.tiptap]:text-slate-300 [&_.tiptap]:text-[15px] [&_.tiptap]:leading-relaxed"
+        />
       </div>
     </div>
   );
