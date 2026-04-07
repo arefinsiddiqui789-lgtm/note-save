@@ -246,30 +246,30 @@ export default function HomePage() {
 
         {/* Create Note Dialog */}
         <Dialog open={showCreateDialog} onOpenChange={(open) => { setShowCreateDialog(open); if (!open) setNewNoteName(''); }}>
-          <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-3 sm:mx-4 p-5 sm:p-6">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2 text-lg">
-                <div className="h-8 w-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center">
-                  <Plus className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-h-[90dvh] overflow-y-auto rounded-2xl sm:rounded-lg mx-2 p-4 sm:p-6 sm:mx-4">
+            <DialogHeader className="sm:text-left text-left">
+              <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+                  <Plus className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 Create New Note
               </DialogTitle>
             </DialogHeader>
             <div className="py-1 sm:py-2">
-              <label className="text-sm text-slate-500 dark:text-slate-400 mb-2.5 block">Note Name</label>
+              <label className="text-sm text-slate-500 dark:text-slate-400 mb-1.5 sm:mb-2 block">Note Name</label>
               <Input
                 placeholder="Enter your note name..."
-                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg h-12 sm:h-11 text-[16px] sm:text-[15px]"
+                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg h-11 text-[16px]"
                 value={newNoteName}
                 onChange={(e) => setNewNoteName(e.target.value)}
                 onKeyDown={(e) => { if (e.key === 'Enter') confirmCreateNote(); }}
                 autoFocus
               />
             </div>
-            <DialogFooter className="flex-col gap-2.5 sm:flex-row sm:gap-2 pt-1">
-              <Button className="w-full h-11 sm:h-auto sm:w-auto bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 active:scale-[0.98] text-white text-[15px] font-semibold rounded-xl sm:rounded-lg shadow-lg shadow-emerald-600/20 dark:shadow-emerald-500/10 transition-all" onClick={confirmCreateNote} disabled={!newNoteName.trim()}>Create</Button>
+            <DialogFooter className="flex-col gap-2 sm:flex-row sm:gap-2 pt-1">
+              <Button className="w-full h-10 sm:h-auto sm:w-auto bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 active:scale-[0.98] text-white text-[15px] font-semibold rounded-xl sm:rounded-lg shadow-lg shadow-emerald-600/20 dark:shadow-emerald-500/10 transition-all" onClick={confirmCreateNote} disabled={!newNoteName.trim()}>Create</Button>
               <DialogClose asChild>
-                <Button variant="outline" className="w-full h-11 sm:h-auto sm:w-auto border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200 text-[15px] rounded-xl sm:rounded-lg">Cancel</Button>
+                <Button variant="outline" className="w-full h-10 sm:h-auto sm:w-auto border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200 text-[15px] rounded-xl sm:rounded-lg">Cancel</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
