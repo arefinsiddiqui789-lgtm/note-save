@@ -278,7 +278,7 @@ export default function HomePage() {
         {/* Footer */}
         <footer className="flex items-center justify-center px-4 py-2.5 border-t border-slate-200/60 dark:border-white/[0.06] bg-slate-50/50 dark:bg-slate-900/50 flex-shrink-0 safe-area-bottom">
           <p className="text-[11px] text-slate-400 dark:text-slate-600">
-            Save Note &copy; {new Date().getFullYear()} &mdash; Your Smart Note Manager
+            Save Note &copy; {new Date().getFullYear()} &mdash; Developed by Arefin Siddiqui
           </p>
         </footer>
       </main>
