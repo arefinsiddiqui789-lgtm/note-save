@@ -40,6 +40,7 @@ export default function HomePage() {
 
   const saveTimer = useRef<NodeJS.Timeout | null>(null);
   const initialized = useRef(false);
+  const latestContent = useRef<string>('');
 
   // Create Note dialog state
   const [showCreateDialog, setShowCreateDialog] = useState(false);
@@ -99,6 +100,7 @@ export default function HomePage() {
 
   const handleEditorUpdate = useCallback((html: string) => {
     if (!selectedNoteId) return;
+    latestContent.current = html;
     setHasUnsavedChanges(true);
 
     if (saveTimer.current) clearTimeout(saveTimer.current);
@@ -120,6 +122,40 @@ export default function HomePage() {
       }
     }, 1200);
   }, [selectedNoteId, updateNote, setIsSaving, setHasUnsavedChanges]);
+
+  // Save on page leave / tab close
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const noteId = useStore.getState().selectedNoteId;
+      const content = latestContent.current;
+      if (noteId && content) {
+        navigator.sendBeacon(
+          `/api/notes/${noteId}`,
+          new Blob([JSON.stringify({ content })], { type: 'application/json' }),
+        );
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        const noteId = useStore.getState().selectedNoteId;
+        const content = latestContent.current;
+        if (noteId && content) {
+          navigator.sendBeacon(
+            `/api/notes/${noteId}`,
+            new Blob([JSON.stringify({ content })], { type: 'application/json' }),
+          );
+        }
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
   // Format time
   const formatTime = (dateStr: string) => {

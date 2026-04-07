@@ -18,6 +18,27 @@ export async function GET(
   }
 }
 
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const { content } = await request.json();
+
+    const note = await db.note.update({
+      where: { id },
+      data: {
+        ...(content !== undefined && { content }),
+      },
+      include: { folder: { select: { id: true, name: true, color: true } } },
+    });
+    return NextResponse.json(note);
+  } catch {
+    return NextResponse.json({ error: 'Failed to save note' }, { status: 500 });
+  }
+}
+
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
