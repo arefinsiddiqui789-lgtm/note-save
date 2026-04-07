@@ -265,3 +265,22 @@
 /* Selection */
 ::selection { background: rgba(16, 185, 129, 0.2); color: #064e3b; }
 .dark ::selection { background: rgba(16, 185, 129, 0.3); color: #f0fdf4; }
+
+/* Hide scrollbar but keep scrollable */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* iOS safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}

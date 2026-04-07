@@ -128,27 +128,27 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 pb-3">
-        <div className="flex items-center justify-between mb-4">
+      <div className="p-3 sm:p-4 pb-2 sm:pb-3">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
           <h2 className="text-xs font-semibold text-emerald-600 dark:text-emerald-400/80 uppercase tracking-[0.2em]">
             Explorer
           </h2>
           <div className="flex gap-0.5">
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => setShowNewFolder(true)}>
-              <FolderPlus className="h-3.5 w-3.5" />
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-7 sm:w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => setShowNewFolder(true)}>
+              <FolderPlus className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
             </Button>
-            <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
-              <Plus className="h-3.5 w-3.5" />
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-7 sm:w-7 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
+              <Plus className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
             </Button>
           </div>
         </div>
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 dark:text-slate-500" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 sm:h-3.5 sm:w-3.5 text-slate-400 dark:text-slate-500" />
           <Input
             placeholder="Search notes..."
-            className="h-8 pl-8 text-xs bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg"
+            className="h-9 sm:h-8 pl-8 sm:pl-8 text-xs bg-slate-100 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-emerald-500/20 rounded-lg"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -160,10 +160,10 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
       <ScrollArea className="flex-1 px-2 py-1">
         {/* All Notes */}
         <button
-          className={`w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
+          className={`w-full flex items-center gap-2.5 px-2.5 py-2.5 rounded-lg text-[13px] transition-all ${
             selectedFolderId === null && !search.trim()
               ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium'
-              : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+              : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white active:bg-slate-100 dark:active:bg-white/10'
           }`}
           onClick={() => { setSelectedFolderId(null); setSearch(''); }}
         >
@@ -183,15 +183,15 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
             <div key={folder.id}>
               <div className="group flex items-center">
                 <button
-                  className={`flex-1 flex items-center gap-2 px-2.5 py-2 rounded-lg text-[13px] transition-all ${
+                  className={`flex-1 flex items-center gap-2 px-2.5 py-2.5 rounded-lg text-[13px] transition-all ${
                     isSel
                       ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium'
-                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white active:bg-slate-100 dark:active:bg-white/10'
                   }`}
                   onClick={() => { setSelectedFolderId(folder.id); setSearch(''); }}
                 >
                   <span
-                    className="p-0 hover:bg-transparent flex-shrink-0"
+                    className="p-0 hover:bg-transparent flex-shrink-0 h-5 w-5 flex items-center justify-center"
                     onClick={(e) => { e.stopPropagation(); toggle(folder.id); }}
                   >
                     {fNotes.length > 0 ? (
@@ -210,8 +210,8 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                 </button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 flex-shrink-0">
-                      <MoreHorizontal className="h-3 w-3" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-6 sm:w-6 md:opacity-0 md:group-hover:opacity-100 text-slate-400 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 flex-shrink-0">
+                      <MoreHorizontal className="h-4 w-4 sm:h-3 sm:w-3" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-36 bg-white dark:bg-slate-800 border-slate-200 dark:border-white/10">
@@ -233,10 +233,10 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="w-full justify-start h-7 text-[11px] text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 ml-0"
+                    className="w-full justify-start h-9 sm:h-7 text-[11px] text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 ml-0"
                     onClick={() => onCreateNote(folder.id)}
                   >
-                    <Plus className="h-3 w-3 mr-1" /> Add note
+                    <Plus className="h-3.5 w-3.5 mr-1" /> Add note
                   </Button>
                 </div>
               )}
@@ -282,10 +282,10 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
           <>
             <Separator className="my-2 bg-slate-200 dark:bg-white/5" />
             {folderNotes(selectedFolderId).length === 0 ? (
-              <div className="text-center py-8">
+              <div className="text-center py-6 sm:py-8">
                 <FileText className="h-7 w-7 text-slate-300 dark:text-slate-700 mx-auto mb-2" />
                 <p className="text-[11px] text-slate-400 dark:text-slate-600 mb-3">No notes in this folder</p>
-                <Button variant="outline" size="sm" className="text-[11px] h-7 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
+                <Button variant="outline" size="sm" className="text-[11px] h-8 sm:h-7 border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5" onClick={() => onCreateNote(selectedFolderId)}>
                   <Plus className="h-3 w-3 mr-1" /> Create Note
                 </Button>
               </div>
@@ -300,7 +300,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* New Folder Dialog */}
       <Dialog open={showNewFolder} onOpenChange={setShowNewFolder}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-4">
           <DialogHeader>
             <DialogTitle className="text-lg">Create New Folder</DialogTitle>
           </DialogHeader>
@@ -323,7 +323,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
                   <button
                     key={c}
                     type="button"
-                    className={`h-7 w-7 rounded-full border-2 cursor-pointer transition-all hover:scale-110 ${
+                    className={`h-8 w-8 sm:h-7 sm:w-7 rounded-full border-2 cursor-pointer transition-all hover:scale-110 ${
                       newColor === c ? 'border-slate-900 dark:border-white scale-110 shadow-lg' : 'border-transparent'
                     }`}
                     style={{ backgroundColor: c }}
@@ -344,7 +344,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Rename Dialog */}
       <Dialog open={editId !== null} onOpenChange={() => setEditId(null)}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-4">
           <DialogHeader><DialogTitle>Rename Folder</DialogTitle></DialogHeader>
           <div className="py-2">
             <Input
@@ -366,7 +366,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Delete Folder Alert */}
       <AlertDialog open={delFolderId !== null} onOpenChange={() => setDelFolderId(null)}>
-        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-4">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-slate-900 dark:text-white">Delete Folder?</AlertDialogTitle>
             <AlertDialogDescription className="text-slate-500 dark:text-slate-400">
@@ -384,7 +384,7 @@ export default function Sidebar({ onCreateNote, onSelectNote }: Props) {
 
       {/* Delete Note Alert */}
       <AlertDialog open={delNoteId !== null} onOpenChange={() => setDelNoteId(null)}>
-        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white">
+        <AlertDialogContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white mx-4">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-slate-900 dark:text-white">Delete Note?</AlertDialogTitle>
             <AlertDialogDescription className="text-slate-500 dark:text-slate-400">
@@ -408,12 +408,12 @@ function NoteItem({ note, active, onSelect, onDelete, showFolder = false }: { no
   return (
     <div className="group flex items-center">
       <button
-        className={`flex-1 flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg text-[13px] transition-all text-left ${
-          active ? 'bg-emerald-50 dark:bg-white/10 text-emerald-700 dark:text-white font-medium' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200'
+        className={`flex-1 flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] transition-all text-left min-h-[44px] ${
+          active ? 'bg-emerald-50 dark:bg-white/10 text-emerald-700 dark:text-white font-medium' : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200 active:bg-slate-100 dark:active:bg-white/10'
         }`}
         onClick={onSelect}
       >
-        <FileText className={`h-3.5 w-3.5 flex-shrink-0 mt-0.5 ${active ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-600'}`} />
+        <FileText className={`h-4 w-4 flex-shrink-0 mt-0.5 ${active ? 'text-emerald-500 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-600'}`} />
         <div className="min-w-0 flex-1">
           <div className="truncate">{note.title || 'Untitled Note'}</div>
           <div className="truncate text-[11px] text-slate-400 dark:text-slate-600">{preview}</div>
@@ -425,8 +425,8 @@ function NoteItem({ note, active, onSelect, onDelete, showFolder = false }: { no
           )}
         </div>
       </button>
-      <Button variant="ghost" size="icon" className="h-5 w-5 opacity-0 group-hover:opacity-100 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex-shrink-0" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
-        <Trash2 className="h-3 w-3" />
+      <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-5 sm:w-5 md:opacity-0 md:group-hover:opacity-100 text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex-shrink-0" onClick={(e) => { e.stopPropagation(); onDelete(); }}>
+        <Trash2 className="h-4 w-4 sm:h-3 sm:w-3" />
       </Button>
     </div>
   );

@@ -11,7 +11,7 @@ export default function ThemeToggle() {
   // resolvedTheme is undefined during SSR, use it for safe client detection
   if (!resolvedTheme) {
     return (
-      <Button variant="ghost" size="icon" className="h-7 w-7">
+      <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-7 sm:w-7">
         <span className="h-4 w-4" />
       </Button>
     );
@@ -26,7 +26,7 @@ export default function ThemeToggle() {
           <Button
             variant="ghost"
             size="icon"
-            className="h-7 w-7 text-slate-500 dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
+            className="h-8 w-8 sm:h-7 sm:w-7 text-slate-500 dark:text-slate-400 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-500/10 transition-colors"
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
           >
             {isDark ? (
