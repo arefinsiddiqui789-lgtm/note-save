@@ -92,12 +92,12 @@ export function SmartHelperSection() {
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#3b6dfa15] flex items-center justify-center">
-              <Bot size={22} className="text-[#3b6dfa]" />
+            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Bot size={22} className="text-primary" />
             </div>
             <div>
               <h2 className="text-2xl font-bold">Vireon Bro</h2>
-              <p className="text-sm text-[#6b7fa3]">
+              <p className="text-sm text-muted-foreground">
                 Your CSE study buddy
               </p>
             </div>
@@ -129,9 +129,9 @@ export function SmartHelperSection() {
             className="flex flex-col items-center justify-center h-full p-6 text-center"
           >
             <div
-              className="w-20 h-20 rounded-2xl bg-[#3b6dfa15] flex items-center justify-center mb-6"
+              className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-6"
             >
-              <Sparkles size={36} className="text-[#3b6dfa]" />
+              <Sparkles size={36} className="text-primary" />
             </div>
             <h3 className="text-xl font-semibold mb-2">
               Hey! Vireon Bro here — ask me anything!

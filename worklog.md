@@ -54,3 +54,29 @@ Stage Summary:
 - Muted text: #6b7fa3 (muted blue-gray)
 - All animations confirmed as fade-only (opacity: 0 → 1)
 - Progress bars and expand/collapse now use fade instead of width/height animation
+
+---
+Task ID: 3
+Agent: Main
+Task: Fix light mode toggle - make it actually switch to a light theme
+
+Work Log:
+- Created proper light mode colors in :root CSS variables (light gray bg #f0f4fa, white cards, etc.)
+- Kept .dark block with the black + deep blue theme
+- Updated sidebar.tsx to use CSS variable-based classes (bg-sidebar, text-sidebar-foreground, etc.) instead of hardcoded hex colors
+- Added dark:bg-gradient-to-b for deep blue gradient only in dark mode
+- Updated footer.tsx to use theme-aware classes (bg-card/50, border-border, text-muted-foreground)
+- Updated page.tsx to use bg-background instead of hardcoded bg-black
+- Updated dashboard.tsx hero gradient to use from-primary/10 etc. instead of hardcoded hex
+- Updated smart-helper.tsx to use bg-primary/10, text-primary, text-muted-foreground
+- Added light mode scrollbar styles and grid-pattern light/dark variants
+- Ran lint check - passed with no errors
+- Checked dev server log - all compilations passing cleanly
+
+Stage Summary:
+- Light mode now works properly with clean white/light gray theme
+- Dark mode stays as black + deep blue sidebar
+- All components use CSS variable-based colors that respond to theme changes
+- Sidebar uses bg-sidebar variable (white in light, deep blue in dark)
+- Footer uses bg-card/50 which adapts to both themes
+- Theme toggle switches all UI elements correctly

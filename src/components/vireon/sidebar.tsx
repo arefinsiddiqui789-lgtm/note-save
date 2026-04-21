@@ -44,10 +44,10 @@ export function Sidebar() {
       {/* Mobile toggle */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2.5 rounded-xl bg-[#0a0f1a]/90 backdrop-blur-sm border border-[#1a2540] shadow-lg hover:opacity-80 transition-opacity"
+        className="fixed top-4 left-4 z-50 md:hidden p-2.5 rounded-xl bg-card/90 backdrop-blur-sm border border-border shadow-lg hover:opacity-80 transition-opacity"
         aria-label="Toggle sidebar"
       >
-        {sidebarOpen ? <X size={20} className="text-[#c8d3e8]" /> : <Menu size={20} className="text-[#c8d3e8]" />}
+        {sidebarOpen ? <X size={20} className="text-foreground" /> : <Menu size={20} className="text-foreground" />}
       </button>
 
       {/* Overlay for mobile */}
@@ -68,20 +68,20 @@ export function Sidebar() {
       <aside
         className={cn(
           "fixed top-0 left-0 z-40 h-full w-[260px]",
-          "bg-gradient-to-b from-[#060d1b] via-[#081425] to-[#0a1a30]",
-          "border-r border-[#132040]",
+          "bg-sidebar border-r border-sidebar-border",
           "flex flex-col py-6 px-3",
-          "transition-transform duration-300 ease-in-out",
+          "transition-all duration-300 ease-in-out",
+          "dark:bg-gradient-to-b dark:from-[#060d1b] dark:via-[#081425] dark:to-[#0a1a30]",
           sidebarOpen ? "translate-x-0" : "-translate-x-full",
           "md:translate-x-0 md:static md:z-auto"
         )}
       >
-        {/* Subtle blue glow at top */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#3b6dfa08] to-transparent pointer-events-none" />
+        {/* Subtle blue glow at top (dark mode only) */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-primary/[0.03] to-transparent pointer-events-none" />
 
         {/* Logo */}
         <div className="flex items-center gap-3 px-3 mb-8 relative z-10">
-          <div className="relative w-10 h-10 rounded-xl overflow-hidden vireon-glow flex items-center justify-center bg-[#3b6dfa]">
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden vireon-glow flex items-center justify-center bg-primary">
             <Image
               src="/logo.png"
               alt="Vireon Logo"
@@ -91,10 +91,10 @@ export function Sidebar() {
             />
           </div>
           <div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-[#3b6dfa] to-[#7ba4f7] bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
               Vireon
             </h1>
-            <p className="text-[10px] text-[#6b7fa3] font-medium tracking-wider uppercase">
+            <p className="text-[10px] text-muted-foreground font-medium tracking-wider uppercase">
               CSE Productivity Hub
             </p>
           </div>
@@ -113,8 +113,8 @@ export function Sidebar() {
                 "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                 "transition-all duration-200 group relative overflow-hidden",
                 activeSection === item.id
-                  ? "bg-[#3b6dfa] text-white shadow-lg shadow-[#3b6dfa25]"
-                  : "text-[#6b7fa3] hover:text-[#c8d3e8] hover:bg-[#0f1a2e]"
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-primary/20"
+                  : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent"
               )}
             >
               <span className="relative z-10">{item.icon}</span>
@@ -128,12 +128,12 @@ export function Sidebar() {
 
         {/* Theme toggle */}
         <div className="mt-auto px-3 relative z-10">
-          <div className="h-px bg-[#1a2540] mb-4" />
+          <div className="h-px bg-sidebar-border mb-4" />
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className={cn(
               "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
-              "text-[#6b7fa3] hover:text-[#c8d3e8] hover:bg-[#0f1a2e]",
+              "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent",
               "transition-all duration-200"
             )}
           >

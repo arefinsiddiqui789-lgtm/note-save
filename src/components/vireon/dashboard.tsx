@@ -201,7 +201,7 @@ export function DashboardSection() {
       {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden rounded-2xl">
         {/* Animated gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3b6dfa15] via-[#3b6dfa08] to-[#1e3a8a10] animated-gradient" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-primary/[0.03] animated-gradient" />
         <div className="absolute inset-0 grid-pattern" />
         <FloatingParticles />
 
@@ -226,7 +226,7 @@ export function DashboardSection() {
             {/* Main title */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-3">
               Welcome back to{" "}
-              <span className="vireon-text-glow bg-gradient-to-r from-[#3b6dfa] to-[#7ba4f7] bg-clip-text text-transparent">
+              <span className="vireon-text-glow bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
                 Vireon
               </span>
             </h1>
@@ -239,8 +239,8 @@ export function DashboardSection() {
           </motion.div>
 
           {/* Decorative glow orb */}
-          <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-[#3b6dfa10] blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 right-10 w-32 h-32 rounded-full bg-[#1e3a8a10] blur-2xl pointer-events-none" />
+          <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 right-10 w-32 h-32 rounded-full bg-primary/5 blur-2xl pointer-events-none" />
         </div>
       </section>
 

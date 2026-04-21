@@ -48,24 +48,24 @@
 
 :root {
   --radius: 0.75rem;
-  /* Light mode — also dark themed now */
-  --background: #000000;
-  --foreground: #e8edf5;
-  --card: #0a0f1a;
-  --card-foreground: #e8edf5;
-  --popover: #0a0f1a;
-  --popover-foreground: #e8edf5;
+  /* Light mode */
+  --background: #f0f4fa;
+  --foreground: #0f1729;
+  --card: #ffffff;
+  --card-foreground: #0f1729;
+  --popover: #ffffff;
+  --popover-foreground: #0f1729;
   --primary: #3b6dfa;
   --primary-foreground: #ffffff;
-  --secondary: #0d1525;
-  --secondary-foreground: #c8d3e8;
-  --muted: #0d1525;
-  --muted-foreground: #6b7fa3;
-  --accent: #111b2e;
-  --accent-foreground: #c8d3e8;
+  --secondary: #e8edf5;
+  --secondary-foreground: #1a2540;
+  --muted: #e4e9f2;
+  --muted-foreground: #5a6a85;
+  --accent: #dce3f0;
+  --accent-foreground: #1a2540;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #1a2540;
-  --input: #1a2540;
+  --border: #cdd5e3;
+  --input: #cdd5e3;
   --ring: #3b6dfa;
   --chart-1: #3b6dfa;
   --chart-2: #5b8def;
@@ -75,13 +75,13 @@
   --vireon: #3b6dfa;
   --vireon-foreground: #ffffff;
   --vireon-glow: #3b6dfa30;
-  --sidebar: #060d1b;
-  --sidebar-foreground: #c8d3e8;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a2540;
   --sidebar-primary: #3b6dfa;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #0f1a2e;
-  --sidebar-accent-foreground: #c8d3e8;
-  --sidebar-border: #132040;
+  --sidebar-accent: #e8edf5;
+  --sidebar-accent-foreground: #1a2540;
+  --sidebar-border: #dce3f0;
   --sidebar-ring: #3b6dfa;
 }
 
@@ -151,6 +151,14 @@
   background: #2a3a5a;
 }
 
+.light ::-webkit-scrollbar-thumb {
+  background: #cdd5e3;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
 /* Vireon glow effects */
 .vireon-glow {
   box-shadow: 0 0 20px var(--vireon-glow), 0 0 40px #3b6dfa10;
@@ -207,6 +215,13 @@
 
 /* Grid pattern */
 .grid-pattern {
+  background-image: 
+    linear-gradient(#00000008 1px, transparent 1px),
+    linear-gradient(90deg, #00000008 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .grid-pattern {
   background-image: 
     linear-gradient(#ffffff03 1px, transparent 1px),
     linear-gradient(90deg, #ffffff03 1px, transparent 1px);
