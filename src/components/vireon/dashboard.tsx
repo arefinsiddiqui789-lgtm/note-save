@@ -24,27 +24,33 @@ import {
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 
+// Get current time in Bangladesh (UTC+6)
+function getBdNow(): Date {
+  return new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" }));
+}
+
 function getGreeting(): string {
-  const hour = new Date().getHours();
+  const hour = getBdNow().getHours();
   if (hour < 12) return "Good Morning";
   if (hour < 18) return "Good Afternoon";
   return "Good Evening";
 }
 
 function getGreetingIcon() {
-  const hour = new Date().getHours();
+  const hour = getBdNow().getHours();
   if (hour < 12) return <Sun size={28} className="text-amber-400" />;
   if (hour < 18) return <Coffee size={28} className="text-orange-400" />;
   return <MoonStar size={28} className="text-primary" />;
 }
 
 function formatDate(): { date: string; day: string } {
-  const now = new Date();
+  const now = getBdNow();
   return {
     date: now.toLocaleDateString("en-US", {
       month: "long",
       day: "numeric",
       year: "numeric",
+      timeZone: "Asia/Dhaka",
     }),
     day: DAYS_OF_WEEK[now.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6],
   };
@@ -235,7 +241,12 @@ export function DashboardSection() {
               Your CSE Productivity Command Center
             </p>
 
-            <p className="text-sm text-muted-foreground/70">{date}</p>
+            <div className="flex items-center gap-2 flex-wrap">
+              <p className="text-sm text-muted-foreground/70">{date}</p>
+              <Badge variant="outline" className="text-[10px] border-primary/20 text-primary/70">
+                🇧🇩 BST (UTC+6)
+              </Badge>
+            </div>
           </motion.div>
 
           {/* Decorative glow orb */}
