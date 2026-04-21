@@ -141,8 +141,8 @@ export function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-background">
-      {/* ===== LEFT: Branding Panel ===== */}
+    <div className="min-h-screen flex flex-col lg:flex-row bg-background">
+      {/* ===== LEFT: Branding Panel (desktop only) ===== */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-primary/5 dark:from-primary/10 dark:via-primary/5 dark:to-transparent" />
@@ -211,31 +211,58 @@ export function AuthPage() {
         </div>
       </div>
 
+      {/* ===== MOBILE: Top Branding Strip ===== */}
+      <div className="lg:hidden relative overflow-hidden">
+        {/* Background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/15 via-primary/5 to-transparent dark:from-primary/8 dark:via-primary/3 dark:to-transparent" />
+        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl" />
+
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="relative z-10 px-6 pt-14 pb-8 flex flex-col items-center text-center"
+        >
+          <div className="w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-primary to-primary/70 shadow-xl shadow-primary/30 mb-4">
+            <Image
+              src="/logo.png"
+              alt="Vireon Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+          </div>
+          <h1 className="text-2xl font-bold text-foreground">Vireon</h1>
+          <p className="text-xs text-muted-foreground mt-1">CSE Productivity Hub</p>
+
+          {/* Feature pills */}
+          <div className="flex flex-wrap justify-center gap-2 mt-4">
+            {[
+              { icon: <Brain size={12} />, text: "Study" },
+              { icon: <Zap size={12} />, text: "Code" },
+              { icon: <Shield size={12} />, text: "Fitness" },
+            ].map((f) => (
+              <div
+                key={f.text}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium"
+              >
+                {f.icon}
+                {f.text}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
       {/* ===== RIGHT: Auth Form ===== */}
-      <div className="flex-1 flex items-center justify-center p-6 md:p-12">
+      <div className="flex-1 flex items-center justify-center p-6 md:p-12 lg:pt-0">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
           className="w-full max-w-md"
         >
-          {/* Mobile logo */}
-          <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/20">
-              <Image
-                src="/logo.png"
-                alt="Vireon Logo"
-                width={28}
-                height={28}
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">Vireon</h1>
-              <p className="text-xs text-muted-foreground">CSE Productivity Hub</p>
-            </div>
-          </div>
-
           <AnimatePresence mode="wait">
             {/* ===== LOGIN VIEW ===== */}
             {view === "login" && (
@@ -342,7 +369,7 @@ export function AuthPage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="mb-8">
+                <div className="mb-6">
                   <h2 className="text-2xl font-bold text-foreground mb-2">
                     Create your account
                   </h2>
@@ -494,7 +521,7 @@ export function AuthPage() {
                   The link expires in 24 hours.
                 </p>
 
-                {/* Demo verify button (in production, user would click email link) */}
+                {/* Demo verify button */}
                 {verifyPath && (
                   <Button
                     onClick={handleVerifyClick}
@@ -593,7 +620,7 @@ export function AuthPage() {
           </AnimatePresence>
 
           {/* Footer */}
-          <div className="mt-10 text-center">
+          <div className="mt-8 lg:mt-10 text-center">
             <p className="text-xs text-muted-foreground/40">
               Built with ❤️ by Arefin Siddiqui · Dhaka, Bangladesh
             </p>

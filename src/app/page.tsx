@@ -62,7 +62,7 @@ export default function Home() {
   // ===== Loading =====
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="min-h-screen flex items-center justify-center bg-background [padding-top:env(safe-area-inset-top)]">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -99,40 +99,40 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.4 }}
-        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background px-8 [padding-top:env(safe-area-inset-top)] [padding-bottom:env(safe-area-inset-bottom)]"
       >
-        {/* Ambient glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-primary/[0.07] blur-[100px] pointer-events-none" />
+        {/* Ambient glow — smaller on mobile */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] rounded-full bg-primary/[0.07] blur-[80px] sm:blur-[100px] pointer-events-none" />
 
         {/* Logo animation */}
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mb-6"
+          className="relative mb-5 sm:mb-6"
         >
           {/* Outer ring pulse */}
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1.4, opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
-            className="absolute inset-0 rounded-3xl border-2 border-primary/30"
+            className="absolute inset-0 rounded-2xl sm:rounded-3xl border-2 border-primary/30"
           />
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1.6, opacity: 0 }}
             transition={{ duration: 1.8, ease: "easeOut", delay: 0.5 }}
-            className="absolute inset-0 rounded-3xl border border-primary/15"
+            className="absolute inset-0 rounded-2xl sm:rounded-3xl border border-primary/15"
           />
 
-          {/* Logo container */}
-          <div className="w-20 h-20 rounded-3xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-primary to-primary/70 shadow-2xl shadow-primary/40">
+          {/* Logo container — smaller on mobile */}
+          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl overflow-hidden flex items-center justify-center bg-gradient-to-br from-primary to-primary/70 shadow-2xl shadow-primary/40">
             <Image
               src="/logo.png"
               alt="Vireon Logo"
               width={48}
               height={48}
-              className="object-contain"
+              className="w-9 h-9 sm:w-12 sm:h-12 object-contain"
             />
           </div>
         </motion.div>
@@ -144,10 +144,10 @@ export default function Home() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-center"
         >
-          <h1 className="text-3xl font-bold text-foreground tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
             Vireon
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
             Productivity Hub
           </p>
         </motion.div>
@@ -157,7 +157,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.8 }}
-          className="text-muted-foreground/60 text-sm mt-6"
+          className="text-muted-foreground/60 text-xs sm:text-sm mt-5 sm:mt-6"
         >
           Preparing your workspace...
         </motion.p>
@@ -167,12 +167,12 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 1 }}
-          className="flex items-center gap-1.5 mt-4"
+          className="flex items-center gap-1.5 mt-3 sm:mt-4"
         >
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}
-              className="w-2 h-2 rounded-full bg-primary"
+              className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-primary"
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{
                 duration: 1.2,
