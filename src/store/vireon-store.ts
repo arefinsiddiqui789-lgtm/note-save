@@ -63,7 +63,17 @@ export type ActiveSection =
   | "goals"
   | "gym"
   | "compiler"
-  | "helper";
+  | "helper"
+  | "overview";
+
+// Snapshot of a past day's completed work
+export interface DaySnapshot {
+  date: string; // YYYY-MM-DD
+  studyTasks: { subject: string; title: string; completed: boolean }[];
+  dailyGoals: { title: string; completed: boolean }[];
+  gymExercises: { name: string; sets: number; reps: number; completed: boolean }[];
+  gymLogged: boolean;
+}
 
 export const SUBJECTS = [
   "Data Structures",
@@ -173,6 +183,12 @@ interface VireonState {
   fitnessProfile: FitnessProfile | null;
   saveFitnessProfile: (profile: Omit<FitnessProfile, "bmr" | "tdee" | "dailyCalories" | "proteinG" | "carbG" | "fatG">) => void;
   clearFitnessProfile: () => void;
+
+  // Daily Snapshots (Overview history)
+  dailySnapshots: Record<string, DaySnapshot>;
+  saveDaySnapshot: (date: string) => void;
+  autoSnapshotYesterday: () => void;
+  clearOldSnapshots: () => void;
 
   // Motivation
   currentQuote: { text: string; author: string };
@@ -347,6 +363,62 @@ export const useVireonStore = create<VireonState>()(
       },
       clearFitnessProfile: () => set({ fitnessProfile: null }),
 
+      // Daily Snapshots
+      dailySnapshots: {},
+      saveDaySnapshot: (date) => {
+        const state = get();
+        const dayOfWeek = new Date(date + "T00:00:00").getDay();
+
+        // Capture study tasks for that day of week
+        const studyTasks = state.studyTasks
+          .filter((t) => t.dayOfWeek === dayOfWeek)
+          .map((t) => ({ subject: t.subject, title: t.title, completed: t.completed }));
+
+        // Capture daily goals for that date
+        const dailyGoals = state.dailyGoals
+          .filter((g) => g.date === date)
+          .map((g) => ({ title: g.title, completed: g.completed }));
+
+        // Capture gym exercises for that day of week
+        const gymExercises = state.gymExercises
+          .filter((e) => e.dayOfWeek === dayOfWeek)
+          .map((e) => ({ name: e.name, sets: e.sets, reps: e.reps, completed: e.completed }));
+
+        const gymLogged = !!state.gymLogs[date];
+
+        set((state) => ({
+          dailySnapshots: {
+            ...state.dailySnapshots,
+            [date]: { date, studyTasks, dailyGoals, gymExercises, gymLogged },
+          },
+        }));
+      },
+      autoSnapshotYesterday: () => {
+        const state = get();
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+        // Only snapshot if not already snapshotted
+        if (!state.dailySnapshots[yesterdayStr]) {
+          get().saveDaySnapshot(yesterdayStr);
+        }
+      },
+      clearOldSnapshots: () => {
+        const state = get();
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - 31);
+        const cutoffStr = cutoff.toISOString().split("T")[0];
+
+        const filtered: Record<string, DaySnapshot> = {};
+        for (const [date, snapshot] of Object.entries(state.dailySnapshots)) {
+          if (date >= cutoffStr) {
+            filtered[date] = snapshot;
+          }
+        }
+        set({ dailySnapshots: filtered });
+      },
+
       // Motivation
       currentQuote: MOTIVATIONAL_QUOTES.morning[0],
       refreshQuote: () => {
@@ -369,6 +441,7 @@ export const useVireonStore = create<VireonState>()(
         chatHistory: state.chatHistory,
         activeSection: state.activeSection,
         fitnessProfile: state.fitnessProfile,
+        dailySnapshots: state.dailySnapshots,
       }),
     }
   )

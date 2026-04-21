@@ -7,6 +7,7 @@ import { DailyGoalsSection } from "@/components/vireon/daily-goals";
 import { GymRoutineSection } from "@/components/vireon/gym-routine";
 import { CodeCompilerSection } from "@/components/vireon/code-compiler";
 import { SmartHelperSection } from "@/components/vireon/smart-helper";
+import { OverviewSection } from "@/components/vireon/overview";
 import { Footer } from "@/components/vireon/footer";
 import { useVireonStore } from "@/store/vireon-store";
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,6 +22,7 @@ export default function Home() {
     gym: <GymRoutineSection />,
     compiler: <CodeCompilerSection />,
     helper: <SmartHelperSection />,
+    overview: <OverviewSection />,
   };
 
   return (

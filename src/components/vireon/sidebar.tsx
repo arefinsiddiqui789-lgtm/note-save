@@ -14,6 +14,7 @@ import {
   Menu,
   X,
   Sparkles,
+  CalendarDays,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,6 +28,7 @@ const NAV_ITEMS: { id: ActiveSection; label: string; icon: React.ReactNode }[] =
   { id: "gym", label: "Gym Routine", icon: <Dumbbell size={20} /> },
   { id: "compiler", label: "Code Compiler", icon: <Code2 size={20} /> },
   { id: "helper", label: "Smart Helper", icon: <Bot size={20} /> },
+  { id: "overview", label: "Overview", icon: <CalendarDays size={20} /> },
 ];
 
 const emptySubscribe = () => () => {};
