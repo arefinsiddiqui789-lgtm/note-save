@@ -207,9 +207,9 @@ export function DashboardSection() {
 
         <div className="relative z-10 px-6 py-12 sm:px-10 sm:py-16 md:px-14 md:py-20">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
             className="max-w-2xl"
           >
             {/* Greeting row */}
@@ -260,11 +260,10 @@ export function DashboardSection() {
           {overviewCards.map((card, index) => (
             <motion.div
               key={card.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              whileHover={{ scale: 1.02, y: -4 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               className="h-full"
             >
               <Card className="h-full border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
@@ -309,11 +308,10 @@ export function DashboardSection() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Quote Card */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          whileHover={{ scale: 1.01, y: -2 }}
+          transition={{ duration: 0.4 }}
         >
           <Card className="h-full border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 overflow-hidden relative">
             {/* Subtle gradient accent */}
@@ -352,11 +350,10 @@ export function DashboardSection() {
 
         {/* Quick Actions */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          whileHover={{ scale: 1.01, y: -2 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
         >
           <Card className="h-full border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 overflow-hidden relative">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-teal-500 to-emerald-500" />
@@ -373,12 +370,10 @@ export function DashboardSection() {
                 {quickActions.map((action, index) => (
                   <motion.button
                     key={action.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.2 + index * 0.1 }}
-                    whileHover={{ scale: 1.02, x: 4 }}
-                    whileTap={{ scale: 0.98 }}
+                    transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
                     onClick={() => setActiveSection(action.section)}
                     className={cn(
                       "w-full flex items-center gap-3 px-4 py-3 rounded-xl",
@@ -402,11 +397,10 @@ export function DashboardSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Today's Study Tasks Preview */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          whileHover={{ scale: 1.01, y: -2 }}
+          transition={{ duration: 0.4 }}
         >
           <Card className="h-full border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
             <CardHeader>
@@ -487,11 +481,10 @@ export function DashboardSection() {
 
         {/* Today's Goals Preview */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          whileHover={{ scale: 1.01, y: -2 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
         >
           <Card className="h-full border-border/50 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
             <CardHeader>

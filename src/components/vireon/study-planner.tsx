@@ -157,19 +157,17 @@ export function StudyPlannerSection() {
     <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto space-y-6">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <motion.div
-            animate={{ rotate: [0, -10, 10, -5, 0] }}
-            transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+          <div
             className="p-3 rounded-2xl bg-primary/10 text-primary"
           >
             <BookOpen size={28} />
-          </motion.div>
+          </div>
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
               Study Planner
@@ -182,15 +180,13 @@ export function StudyPlannerSection() {
 
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <div
             >
               <Button size="lg" className="gap-2 shadow-lg shadow-primary/20">
                 <Plus size={18} />
                 Add Task
               </Button>
-            </motion.div>
+            </div>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
@@ -256,7 +252,7 @@ export function StudyPlannerSection() {
               </div>
 
               {/* Submit */}
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+              <div>
                 <Button
                   onClick={handleAddTask}
                   disabled={!formSubject.trim() || !formTitle.trim()}
@@ -265,7 +261,7 @@ export function StudyPlannerSection() {
                   <Plus size={16} />
                   Add Study Task
                 </Button>
-              </motion.div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
@@ -273,9 +269,9 @@ export function StudyPlannerSection() {
 
       {/* Overall Progress Summary */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
       >
         <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
           <CardContent className="py-4">
@@ -307,9 +303,9 @@ export function StudyPlannerSection() {
 
       {/* Day Tabs */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
       >
         <Tabs
           value={selectedDay}
@@ -395,14 +391,13 @@ export function StudyPlannerSection() {
                     .map((task, taskIndex) => (
                       <motion.div
                         key={task.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{
-                          duration: 0.3,
+                          duration: 0.4,
                           delay: taskIndex * 0.05,
                         }}
-                        layout
                       >
                         <Card
                           className={cn(
@@ -492,7 +487,7 @@ export function StudyPlannerSection() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.2 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
                   >
                     <Card className="border-dashed">
                       <CardContent className="py-12">
@@ -511,9 +506,7 @@ export function StudyPlannerSection() {
                               Click the add button to plan your study session
                             </p>
                           </div>
-                          <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                          <div
                           >
                             <Button
                               variant="outline"
@@ -524,7 +517,7 @@ export function StudyPlannerSection() {
                               <Plus size={14} />
                               Add Task
                             </Button>
-                          </motion.div>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -538,9 +531,9 @@ export function StudyPlannerSection() {
 
       {/* Progress Section — dynamically shows all subjects from tasks */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.3 }}
       >
         <div className="flex items-center gap-2 mb-4">
           <GraduationCap size={20} className="text-primary" />
@@ -564,9 +557,8 @@ export function StudyPlannerSection() {
             {subjectProgress.map((sp, index) => (
               <motion.div
                 key={sp.subject}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
               >
                 <Card
@@ -621,9 +613,9 @@ export function StudyPlannerSection() {
 
       {/* Quick Stats */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.4 }}
       >
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
@@ -650,9 +642,9 @@ export function StudyPlannerSection() {
           ].map((stat, index) => (
             <motion.div
               key={stat.label}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.5 + index * 0.08 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.4, delay: 0.5 + index * 0.08 }}
             >
               <Card>
                 <CardContent className="py-3">

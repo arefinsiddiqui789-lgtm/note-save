@@ -141,19 +141,17 @@ export function OverviewSection() {
     <div className="p-4 md:p-6 lg:p-8 max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
-          <motion.div
-            animate={{ rotate: [0, 5, -5, 0] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 4 }}
+          <div
             className="p-3 rounded-xl bg-primary/10 text-primary shrink-0"
           >
             <CalendarDays size={28} />
-          </motion.div>
+          </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
               Overview
@@ -163,7 +161,7 @@ export function OverviewSection() {
             </p>
           </div>
         </div>
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+        <div>
           <Button
             onClick={handleSnapshotToday}
             className="gap-2 shadow-lg shadow-primary/20"
@@ -171,13 +169,13 @@ export function OverviewSection() {
             <Camera size={16} />
             Save Today&apos;s Snapshot
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* 30-Day Activity Calendar */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
         <Card>
@@ -206,9 +204,8 @@ export function OverviewSection() {
                 const isCurrentDay = date === todayStr;
 
                 return (
-                  <motion.div
+                  <div
                     key={date}
-                    whileHover={{ scale: 1.2 }}
                     className={cn(
                       "aspect-square rounded-md transition-all duration-200 relative group cursor-default",
                       isCurrentDay && "ring-2 ring-primary ring-offset-1 ring-offset-background",
@@ -224,7 +221,7 @@ export function OverviewSection() {
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded-md bg-popover border text-[10px] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg">
                       {formatDateShort(date)} • {completedItems}/{totalItems}
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>
@@ -242,8 +239,8 @@ export function OverviewSection() {
 
       {/* Quick Stats */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.15 }}
         className="grid grid-cols-2 md:grid-cols-4 gap-3"
       >
@@ -295,8 +292,8 @@ export function OverviewSection() {
 
       {/* Completion Rate Cards */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
         <Card>
@@ -316,8 +313,8 @@ export function OverviewSection() {
 
       {/* Daily History List */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.25 }}
       >
         <div className="flex items-center gap-2 mb-4">
@@ -332,13 +329,11 @@ export function OverviewSection() {
           <Card className="border-dashed">
             <CardContent className="py-12">
               <div className="flex flex-col items-center gap-3 text-center">
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                <div
                   className="p-3 rounded-2xl bg-muted/50"
                 >
                   <CalendarDays size={28} className="text-muted-foreground" />
-                </motion.div>
+                </div>
                 <p className="text-sm font-medium text-muted-foreground">
                   No snapshots yet
                 </p>
@@ -432,8 +427,8 @@ function DaySnapshotCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay }}
     >
       <Card
@@ -450,13 +445,12 @@ function DaySnapshotCard({
           <CardContent className="py-3 px-4">
             <div className="flex items-center gap-3">
               {/* Expand icon */}
-              <motion.div
-                animate={{ rotate: isExpanded ? 90 : 0 }}
-                transition={{ duration: 0.2 }}
-                className="shrink-0 text-muted-foreground"
+              <div
+                className="shrink-0 text-muted-foreground transition-transform duration-200"
+                style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)' }}
               >
                 <ChevronRight size={16} />
-              </motion.div>
+              </div>
 
               {/* Date info */}
               <div className="flex-1 min-w-0">

@@ -63,9 +63,8 @@ function getDayNumber(dateStr: string): number {
 function CelebrationSparkles() {
   const sparkles = Array.from({ length: 12 }, (_, i) => ({
     id: i,
-    x: Math.random() * 200 - 100,
-    y: Math.random() * 200 - 100,
-    scale: Math.random() * 0.5 + 0.5,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`,
     delay: Math.random() * 0.3,
   }));
 
@@ -74,15 +73,11 @@ function CelebrationSparkles() {
       {sparkles.map((s) => (
         <motion.div
           key={s.id}
-          initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-          animate={{
-            opacity: [0, 1, 0],
-            scale: [0, s.scale, 0],
-            x: s.x,
-            y: s.y,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 0.8, delay: s.delay, ease: "easeOut" }}
-          className="absolute left-1/2 top-1/2"
+          className="absolute"
+          style={{ left: s.left, top: s.top }}
         >
           <Sparkles className="text-emerald-400" size={12} />
         </motion.div>
@@ -148,9 +143,9 @@ function CircularProgress({
         <motion.span
           className="text-2xl font-bold text-foreground"
           key={value}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
         >
           {value}/{max}
         </motion.span>
@@ -258,9 +253,9 @@ export function DailyGoalsSection() {
     <div className="p-4 md:p-8 space-y-6 max-w-4xl mx-auto">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
         className="flex items-center gap-3"
       >
         <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
@@ -279,17 +274,15 @@ export function DailyGoalsSection() {
         <div className="space-y-6">
           {/* Streak Counter */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <Card className="relative overflow-hidden border-emerald-500/20 bg-gradient-to-br from-card to-emerald-500/5">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="relative">
-                  <motion.div
+                  <div
                     key={streakCount}
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className="flex flex-col items-center"
                   >
                     <div className="relative">
@@ -309,7 +302,7 @@ export function DailyGoalsSection() {
                     <span className="text-5xl font-extrabold bg-gradient-to-b from-orange-500 to-amber-600 bg-clip-text text-transparent mt-2">
                       {streakCount}
                     </span>
-                  </motion.div>
+                  </div>
                   <span className="text-sm font-semibold text-muted-foreground mt-1">
                     Day Streak
                   </span>
@@ -333,9 +326,9 @@ export function DailyGoalsSection() {
 
           {/* Progress Ring */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
           >
             <Card>
               <CardContent className="p-6 flex flex-col items-center">
@@ -385,9 +378,9 @@ export function DailyGoalsSection() {
         <div className="md:col-span-2 space-y-6">
           {/* Add Goal Form */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
           >
             <Card>
               <CardHeader className="pb-3">
@@ -447,15 +440,13 @@ export function DailyGoalsSection() {
                     {todayGoals.map((goal, index) => (
                       <motion.div
                         key={goal.id}
-                        initial={{ opacity: 0, x: -20, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{
-                          duration: 0.3,
+                          duration: 0.4,
                           delay: index * 0.05,
-                          ease: "easeOut",
                         }}
-                        layout
                       >
                         <div
                           className={cn(
@@ -486,13 +477,9 @@ export function DailyGoalsSection() {
                           </span>
                           {goal.completed && (
                             <motion.div
-                              initial={{ scale: 0 }}
-                              animate={{ scale: 1 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 400,
-                                damping: 15,
-                              }}
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              transition={{ duration: 0.4 }}
                             >
                               <Check
                                 size={14}
@@ -534,9 +521,9 @@ export function DailyGoalsSection() {
                 {/* Motivational Message */}
                 <motion.div
                   key={motivationalMessage}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
                   className={cn(
                     "text-center py-3 px-4 rounded-xl text-sm font-medium",
                     allComplete
@@ -555,9 +542,9 @@ export function DailyGoalsSection() {
 
           {/* Weekly Overview */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
           >
             <Card>
               <CardHeader className="pb-3">
@@ -574,10 +561,9 @@ export function DailyGoalsSection() {
                   {weeklyData.map((day, index) => (
                     <motion.div
                       key={day.date}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-                      whileHover={{ scale: 1.05 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.5 + index * 0.05 }}
                       className="flex flex-col items-center gap-1.5"
                     >
                       <span className="text-[10px] text-muted-foreground font-medium">

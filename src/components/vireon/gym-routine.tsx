@@ -111,8 +111,8 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0 },
+  show: { opacity: 1 },
 };
 
 // Questionnaire step type
@@ -288,18 +288,16 @@ export function GymRoutineSection() {
     <div className="p-4 md:p-6 lg:p-8 max-w-5xl mx-auto space-y-6">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         className="flex items-start gap-4"
       >
-        <motion.div
-          animate={{ rotate: [0, -10, 10, -5, 5, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+        <div
           className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 shrink-0"
         >
           <Dumbbell size={28} />
-        </motion.div>
+        </div>
         <div>
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Gym Routine
@@ -313,8 +311,8 @@ export function GymRoutineSection() {
 
       {/* Quick Stats Row */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
         className="grid grid-cols-2 md:grid-cols-4 gap-3"
       >
@@ -368,8 +366,8 @@ export function GymRoutineSection() {
 
       {/* Weekly Consistency Tracker */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.15 }}
       >
         <Card>
@@ -395,9 +393,9 @@ export function GymRoutineSection() {
                 return (
                   <motion.div
                     key={date}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.05 * i, duration: 0.3 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.05 * i, duration: 0.4 }}
                     className={cn(
                       "flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-300",
                       isCompleted
@@ -410,10 +408,7 @@ export function GymRoutineSection() {
                     <span className="text-[10px] font-medium uppercase tracking-wider">
                       {dayLabel}
                     </span>
-                    <motion.div
-                      initial={false}
-                      animate={{ scale: isCompleted ? 1 : 0.85 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    <div
                       className={cn(
                         "w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold",
                         isCompleted
@@ -428,7 +423,7 @@ export function GymRoutineSection() {
                       ) : (
                         dateNum
                       )}
-                    </motion.div>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -448,13 +443,11 @@ export function GymRoutineSection() {
 
       {/* Mark Day Complete */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.2 }}
       >
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+        <div
         >
           <Button
             onClick={handleMarkDayComplete}
@@ -470,10 +463,10 @@ export function GymRoutineSection() {
               {isTodayLogged ? (
                 <motion.span
                   key="done"
-                  initial={{ scale: 0, rotate: -180 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  exit={{ scale: 0, rotate: 180 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.4 }}
                   className="flex items-center gap-2"
                 >
                   <Check size={20} />
@@ -493,13 +486,13 @@ export function GymRoutineSection() {
               )}
             </AnimatePresence>
           </Button>
-        </motion.div>
+        </div>
       </motion.div>
 
       {/* Day Tabs + Exercise List */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.25 }}
       >
         <Card>
@@ -604,8 +597,8 @@ export function GymRoutineSection() {
 
       {/* Add Exercise Form */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.3 }}
       >
         <Card>
@@ -677,9 +670,7 @@ export function GymRoutineSection() {
                 </select>
               </div>
               <div className="flex items-end">
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
+                <div
                   className="w-full"
                 >
                   <Button
@@ -690,7 +681,7 @@ export function GymRoutineSection() {
                     <Plus size={16} />
                     Add
                   </Button>
-                </motion.div>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -699,8 +690,8 @@ export function GymRoutineSection() {
 
       {/* Quick Presets */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.35 }}
       >
         <Card>
@@ -719,11 +710,9 @@ export function GymRoutineSection() {
               {EXERCISE_PRESETS.map((preset, i) => (
                 <motion.button
                   key={preset.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.04 * i }}
-                  whileHover={{ scale: 1.04, y: -2 }}
-                  whileTap={{ scale: 0.96 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.04 * i, duration: 0.4 }}
                   onClick={() => handlePresetAdd(preset)}
                   className={cn(
                     "flex items-center gap-2.5 p-3 rounded-xl border text-left",
@@ -749,8 +738,8 @@ export function GymRoutineSection() {
 
       {/* ===== FITNESS PROFILE QUESTIONNAIRE ===== */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.4 }}
       >
         <div className="flex items-center gap-2 mb-4">
@@ -762,13 +751,11 @@ export function GymRoutineSection() {
           <Card className="border-dashed border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-500/5 to-transparent">
             <CardContent className="py-10">
               <div className="flex flex-col items-center gap-4 text-center">
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                <div
                   className="p-4 rounded-2xl bg-emerald-500/10"
                 >
                   <Calculator size={36} className="text-emerald-500" />
-                </motion.div>
+                </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-1">Get Your Personalized Plan</h3>
                   <p className="text-sm text-muted-foreground max-w-md">
@@ -776,7 +763,7 @@ export function GymRoutineSection() {
                     and daily calorie target for weight loss or muscle gain.
                   </p>
                 </div>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <div>
                   <Button
                     size="lg"
                     onClick={handleStartQuestionnaire}
@@ -785,7 +772,7 @@ export function GymRoutineSection() {
                     <User size={18} />
                     Start Questionnaire
                   </Button>
-                </motion.div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -796,9 +783,9 @@ export function GymRoutineSection() {
           {showQuestionnaire && (
             <motion.div
               key="questionnaire"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
               <Card className="border-emerald-500/20 overflow-hidden">
@@ -830,9 +817,9 @@ export function GymRoutineSection() {
                     {step === 0 && (
                       <motion.div
                         key="step0"
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
                         className="space-y-5"
                       >
@@ -868,9 +855,9 @@ export function GymRoutineSection() {
                     {step === 1 && (
                       <motion.div
                         key="step1"
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
                         className="space-y-5"
                       >
@@ -882,8 +869,6 @@ export function GymRoutineSection() {
                             {(["male", "female"] as const).map((g) => (
                               <motion.button
                                 key={g}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
                                 onClick={() => handleQChange("gender", g)}
                                 className={cn(
                                   "p-4 rounded-xl border-2 text-center font-medium transition-all duration-200",
@@ -935,9 +920,9 @@ export function GymRoutineSection() {
                     {step === 2 && (
                       <motion.div
                         key="step2"
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
                         className="space-y-3"
                       >
@@ -947,11 +932,9 @@ export function GymRoutineSection() {
                         {ACTIVITY_OPTIONS.map((opt, i) => (
                           <motion.button
                             key={opt.value}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.06 }}
-                            whileHover={{ scale: 1.01, x: 4 }}
-                            whileTap={{ scale: 0.99 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: i * 0.06, duration: 0.4 }}
                             onClick={() => handleQChange("activityLevel", opt.value)}
                             className={cn(
                               "w-full p-3.5 rounded-xl border-2 text-left transition-all duration-200",
@@ -976,9 +959,9 @@ export function GymRoutineSection() {
                               </div>
                               {questionnaire.activityLevel === opt.value && (
                                 <motion.div
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  transition={{ duration: 0.4 }}
                                 >
                                   <Check size={18} className="text-emerald-500" />
                                 </motion.div>
@@ -993,9 +976,9 @@ export function GymRoutineSection() {
                     {step === 3 && (
                       <motion.div
                         key="step3"
-                        initial={{ opacity: 0, x: 40 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -40 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
                         className="space-y-4"
                       >
@@ -1005,8 +988,6 @@ export function GymRoutineSection() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           {/* Weight Loss Card */}
                           <motion.button
-                            whileHover={{ scale: 1.02, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
                             onClick={() => handleQChange("goal", "lose")}
                             className={cn(
                               "p-5 rounded-2xl border-2 text-left transition-all duration-200",
@@ -1030,8 +1011,9 @@ export function GymRoutineSection() {
                             </p>
                             {questionnaire.goal === "lose" && (
                               <motion.div
-                                initial={{ opacity: 0, y: 4 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.4 }}
                                 className="mt-3 flex items-center gap-1.5 text-xs font-medium text-orange-600 dark:text-orange-400"
                               >
                                 <Check size={14} /> Selected
@@ -1041,8 +1023,6 @@ export function GymRoutineSection() {
 
                           {/* Weight Gain Card */}
                           <motion.button
-                            whileHover={{ scale: 1.02, y: -2 }}
-                            whileTap={{ scale: 0.98 }}
                             onClick={() => handleQChange("goal", "gain")}
                             className={cn(
                               "p-5 rounded-2xl border-2 text-left transition-all duration-200",
@@ -1066,8 +1046,9 @@ export function GymRoutineSection() {
                             </p>
                             {questionnaire.goal === "gain" && (
                               <motion.div
-                                initial={{ opacity: 0, y: 4 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.4 }}
                                 className="mt-3 flex items-center gap-1.5 text-xs font-medium text-emerald-600 dark:text-emerald-400"
                               >
                                 <Check size={14} /> Selected
@@ -1120,7 +1101,7 @@ export function GymRoutineSection() {
                         <ChevronRight size={16} />
                       </Button>
                     ) : (
-                      <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                      <div>
                         <Button
                           onClick={handleSubmitQuestionnaire}
                           disabled={!canProceed()}
@@ -1129,7 +1110,7 @@ export function GymRoutineSection() {
                           <Calculator size={16} />
                           Calculate My Plan
                         </Button>
-                      </motion.div>
+                      </div>
                     )}
                   </div>
                 </CardContent>
@@ -1141,9 +1122,9 @@ export function GymRoutineSection() {
         {/* ===== FITNESS RESULTS ===== */}
         {fitnessProfile && !showQuestionnaire && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
             className="space-y-5"
           >
             {/* Summary Header */}
@@ -1210,7 +1191,7 @@ export function GymRoutineSection() {
             {/* Calorie & Macro Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* BMR Card */}
-              <motion.div whileHover={{ scale: 1.02, y: -2 }} transition={{ duration: 0.2 }}>
+              <div>
                 <Card className="h-full">
                   <CardContent className="pt-5">
                     <div className="flex items-center gap-3 mb-3">
@@ -1227,10 +1208,10 @@ export function GymRoutineSection() {
                     </p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
 
               {/* TDEE Card */}
-              <motion.div whileHover={{ scale: 1.02, y: -2 }} transition={{ duration: 0.2 }}>
+              <div>
                 <Card className="h-full">
                   <CardContent className="pt-5">
                     <div className="flex items-center gap-3 mb-3">
@@ -1247,10 +1228,10 @@ export function GymRoutineSection() {
                     </p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
 
               {/* Daily Calorie Target */}
-              <motion.div whileHover={{ scale: 1.02, y: -2 }} transition={{ duration: 0.2 }}>
+              <div>
                 <Card className={cn(
                   "h-full border-2",
                   fitnessProfile.goal === "lose"
@@ -1279,7 +1260,7 @@ export function GymRoutineSection() {
                     </p>
                   </CardContent>
                 </Card>
-              </motion.div>
+              </div>
             </div>
 
             {/* Macros Breakdown */}
@@ -1368,9 +1349,9 @@ export function GymRoutineSection() {
                     return (
                       <motion.div
                         key={dayPlan.day}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: i * 0.05, duration: 0.4 }}
                         className={cn(
                           "p-3.5 rounded-xl border transition-all duration-200",
                           isCurrentDay
@@ -1464,11 +1445,10 @@ function ExerciseCard({
   return (
     <motion.div
       variants={itemVariants}
-      layout
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 20, scale: 0.95 }}
-      transition={{ duration: 0.25 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
     >
       <div
         className={cn(
@@ -1507,9 +1487,9 @@ function ExerciseCard({
         </div>
         {exercise.completed && (
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
           >
             <Badge className="bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20">
               <Check size={10} />
@@ -1517,7 +1497,7 @@ function ExerciseCard({
             </Badge>
           </motion.div>
         )}
-        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+        <div>
           <Button
             variant="ghost"
             size="icon"
@@ -1526,7 +1506,7 @@ function ExerciseCard({
           >
             <Trash2 size={14} />
           </Button>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );

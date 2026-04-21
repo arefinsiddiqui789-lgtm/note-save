@@ -191,9 +191,9 @@ export function CodeCompilerSection() {
     <div className="p-4 md:p-8 space-y-6 pb-8">
       {/* ===== HEADER ===== */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div className="flex items-center gap-3">
@@ -318,9 +318,9 @@ export function CodeCompilerSection() {
         <div className="lg:col-span-2 space-y-4">
           {/* Code Editor Card */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             <Card className="border-border/50 overflow-hidden">
               <CardHeader className="pb-3">
@@ -342,7 +342,7 @@ export function CodeCompilerSection() {
                       {code.split("\n").length} lines
                     </span>
                     {/* Run Button */}
-                    <motion.div whileTap={{ scale: 0.95 }}>
+                    <motion.div>
                       <Button
                         onClick={handleRunCode}
                         disabled={isRunning}
@@ -406,10 +406,10 @@ export function CodeCompilerSection() {
           <AnimatePresence>
             {outputVisible && (
               <motion.div
-                initial={{ opacity: 0, y: 20, height: 0 }}
-                animate={{ opacity: 1, y: 0, height: "auto" }}
-                exit={{ opacity: 0, y: 10, height: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
               >
                 <Card className="border-border/50 overflow-hidden">
                   <CardHeader className="pb-2">
@@ -521,9 +521,9 @@ export function CodeCompilerSection() {
 
         {/* Right: Saved Snippets (1/3) */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
         >
           <Card className="border-border/50 h-full">
             <CardHeader className="pb-3">
@@ -560,10 +560,9 @@ export function CodeCompilerSection() {
                     {codeSnippets.map((snippet, index) => (
                       <motion.div
                         key={snippet.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.05, duration: 0.3 }}
-                        whileHover={{ scale: 1.01 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: index * 0.05, duration: 0.4 }}
                         className={cn(
                           "group relative p-3 rounded-lg border border-border/50",
                           "hover:border-primary/30 hover:bg-primary/5",

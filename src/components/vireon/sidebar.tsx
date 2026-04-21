@@ -44,7 +44,7 @@ export function Sidebar() {
       {/* Mobile toggle */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-4 left-4 z-50 md:hidden p-2.5 rounded-xl bg-card/80 backdrop-blur-sm border border-border shadow-lg hover:scale-105 transition-transform"
+        className="fixed top-4 left-4 z-50 md:hidden p-2.5 rounded-xl bg-card/80 backdrop-blur-sm border border-border shadow-lg hover:opacity-80 transition-opacity"
         aria-label="Toggle sidebar"
       >
         {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
@@ -104,8 +104,6 @@ export function Sidebar() {
                 setActiveSection(item.id);
                 setSidebarOpen(false);
               }}
-              whileHover={{ x: 4 }}
-              whileTap={{ scale: 0.97 }}
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium",
                 "transition-all duration-200 group relative overflow-hidden",
@@ -114,13 +112,6 @@ export function Sidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-accent"
               )}
             >
-              {activeSection === item.id && (
-                <motion.div
-                  layoutId="activeIndicator"
-                  className="absolute inset-0 bg-primary rounded-xl"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
               <span className="relative z-10">{item.icon}</span>
               <span className="relative z-10">{item.label}</span>
               {activeSection === item.id && (

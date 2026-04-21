@@ -85,8 +85,9 @@ export function SmartHelperSection() {
     <div className="flex flex-col h-[calc(100vh-60px)]">
       {/* Header */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
         className="p-6 pb-4"
       >
         <div className="flex items-center justify-between">
@@ -122,17 +123,16 @@ export function SmartHelperSection() {
         {chatHistory.length === 0 && !isLoading ? (
           /* Empty State */
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4 }}
             className="flex flex-col items-center justify-center h-full p-6 text-center"
           >
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            <div
               className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-6"
             >
               <Sparkles size={36} className="text-primary" />
-            </motion.div>
+            </div>
             <h3 className="text-xl font-semibold mb-2">
               Hey! Vireon Bro here — ask me anything!
             </h3>
@@ -144,11 +144,9 @@ export function SmartHelperSection() {
               {QUICK_QUESTIONS.map((q, i) => (
                 <motion.button
                   key={q}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
                   onClick={() => handleSend(q)}
                   className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors"
                 >
@@ -166,9 +164,9 @@ export function SmartHelperSection() {
                 {chatHistory.map((msg, i) => (
                   <motion.div
                     key={msg.id}
-                    initial={{ opacity: 0, x: msg.role === "user" ? 20 : -20, y: 10 }}
-                    animate={{ opacity: 1, x: 0, y: 0 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4 }}
                     className={cn(
                       "flex gap-3",
                       msg.role === "user" ? "flex-row-reverse" : "flex-row"
@@ -214,8 +212,9 @@ export function SmartHelperSection() {
               {/* Typing indicator */}
               {isLoading && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
                   className="flex gap-3"
                 >
                   <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
