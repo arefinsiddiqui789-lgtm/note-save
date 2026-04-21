@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { useVireonStore, type CodeSnippet } from "@/store/vireon-store";
 import { cn } from "@/lib/utils";
@@ -91,8 +91,10 @@ export function CodeCompilerSection() {
   const { theme } = useTheme();
   const { codeSnippets, saveCodeSnippet, deleteCodeSnippet } = useVireonStore();
 
+  // SSR check
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
+
   // State
-  const [mounted, setMounted] = useState(false);
   const [language, setLanguage] = useState("python");
   const [code, setCode] = useState(CODE_TEMPLATES.python);
   const [isRunning, setIsRunning] = useState(false);
@@ -101,11 +103,6 @@ export function CodeCompilerSection() {
   const [snippetTitle, setSnippetTitle] = useState("");
   const [copied, setCopied] = useState(false);
   const [outputVisible, setOutputVisible] = useState(false);
-
-  // SSR check
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Update code template when language changes
   const handleLanguageChange = useCallback(

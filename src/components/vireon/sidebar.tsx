@@ -29,15 +29,13 @@ const NAV_ITEMS: { id: ActiveSection; label: string; icon: React.ReactNode }[] =
   { id: "helper", label: "Smart Helper", icon: <Bot size={20} /> },
 ];
 
+const emptySubscribe = () => () => {};
+
 export function Sidebar() {
   const { activeSection, setActiveSection, sidebarOpen, setSidebarOpen } =
     useVireonStore();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   return (
     <>

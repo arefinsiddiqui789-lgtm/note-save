@@ -197,7 +197,7 @@ export function DashboardSection() {
   ];
 
   return (
-    <div className="space-y-8 pb-8">
+    <div className="p-4 md:p-8 space-y-8 pb-8">
       {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden rounded-2xl">
         {/* Animated gradient background */}
