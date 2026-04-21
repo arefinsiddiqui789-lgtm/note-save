@@ -1,6 +1,6 @@
 "use client";
 
-import { useVireonStore, SUBJECTS, DAYS_OF_WEEK } from "@/store/vireon-store";
+import { useVireonStore, DAYS_OF_WEEK } from "@/store/vireon-store";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useMemo } from "react";
@@ -12,7 +12,6 @@ import {
   Circle,
   Calendar,
   GraduationCap,
-  ChevronRight,
 } from "lucide-react";
 
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
@@ -29,7 +28,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogTrigger,
@@ -38,33 +36,50 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// Subject color mapping (emerald/teal based, no blue/indigo)
-const SUBJECT_COLORS: Record<string, string> = {
-  "Data Structures": "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-500/20",
-  Algorithms: "bg-teal-500/15 text-teal-700 dark:text-teal-400 border-teal-500/20",
-  "Operating Systems": "bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/20",
-  "Database Systems": "bg-rose-500/15 text-rose-700 dark:text-rose-400 border-rose-500/20",
-  Networking: "bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border-cyan-500/20",
-  "Programming Languages": "bg-violet-500/15 text-violet-700 dark:text-violet-400 border-violet-500/20",
-};
+// Dynamic color palette for subjects — cycles through these for any custom subject
+const SUBJECT_PALETTE = [
+  { bg: "bg-emerald-500/15", text: "text-emerald-700 dark:text-emerald-400", border: "border-emerald-500/20", progress: "[&>div]:bg-emerald-500", progressBg: "bg-emerald-500/10" },
+  { bg: "bg-teal-500/15", text: "text-teal-700 dark:text-teal-400", border: "border-teal-500/20", progress: "[&>div]:bg-teal-500", progressBg: "bg-teal-500/10" },
+  { bg: "bg-amber-500/15", text: "text-amber-700 dark:text-amber-400", border: "border-amber-500/20", progress: "[&>div]:bg-amber-500", progressBg: "bg-amber-500/10" },
+  { bg: "bg-rose-500/15", text: "text-rose-700 dark:text-rose-400", border: "border-rose-500/20", progress: "[&>div]:bg-rose-500", progressBg: "bg-rose-500/10" },
+  { bg: "bg-cyan-500/15", text: "text-cyan-700 dark:text-cyan-400", border: "border-cyan-500/20", progress: "[&>div]:bg-cyan-500", progressBg: "bg-cyan-500/10" },
+  { bg: "bg-violet-500/15", text: "text-violet-700 dark:text-violet-400", border: "border-violet-500/20", progress: "[&>div]:bg-violet-500", progressBg: "bg-violet-500/10" },
+  { bg: "bg-pink-500/15", text: "text-pink-700 dark:text-pink-400", border: "border-pink-500/20", progress: "[&>div]:bg-pink-500", progressBg: "bg-pink-500/10" },
+  { bg: "bg-orange-500/15", text: "text-orange-700 dark:text-orange-400", border: "border-orange-500/20", progress: "[&>div]:bg-orange-500", progressBg: "bg-orange-500/10" },
+  { bg: "bg-lime-500/15", text: "text-lime-700 dark:text-lime-400", border: "border-lime-500/20", progress: "[&>div]:bg-lime-500", progressBg: "bg-lime-500/10" },
+  { bg: "bg-sky-500/15", text: "text-sky-700 dark:text-sky-400", border: "border-sky-500/20", progress: "[&>div]:bg-sky-500", progressBg: "bg-sky-500/10" },
+];
 
-const SUBJECT_PROGRESS_COLORS: Record<string, string> = {
-  "Data Structures": "[&>div]:bg-emerald-500",
-  Algorithms: "[&>div]:bg-teal-500",
-  "Operating Systems": "[&>div]:bg-amber-500",
-  "Database Systems": "[&>div]:bg-rose-500",
-  Networking: "[&>div]:bg-cyan-500",
-  "Programming Languages": "[&>div]:bg-violet-500",
-};
+// Stable hash function to assign consistent colors to subject names
+function hashString(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return Math.abs(hash);
+}
 
-const SUBJECT_PROGRESS_BG: Record<string, string> = {
-  "Data Structures": "bg-emerald-500/10",
-  Algorithms: "bg-teal-500/10",
-  "Operating Systems": "bg-amber-500/10",
-  "Database Systems": "bg-rose-500/10",
-  Networking: "bg-cyan-500/10",
-  "Programming Languages": "bg-violet-500/10",
-};
+function getSubjectColor(subject: string) {
+  const index = hashString(subject) % SUBJECT_PALETTE.length;
+  return SUBJECT_PALETTE[index];
+}
+
+function getSubjectBadgeClasses(subject: string): string {
+  const c = getSubjectColor(subject);
+  return `${c.bg} ${c.text} ${c.border}`;
+}
+
+function getSubjectProgressClass(subject: string): string {
+  const c = getSubjectColor(subject);
+  return c.progress;
+}
+
+function getSubjectProgressBg(subject: string): string {
+  const c = getSubjectColor(subject);
+  return c.progressBg;
+}
 
 export function StudyPlannerSection() {
   const { studyTasks, addStudyTask, toggleStudyTask, deleteStudyTask } =
@@ -92,16 +107,23 @@ export function StudyPlannerSection() {
     [studyTasks, selectedDay]
   );
 
-  // Progress per subject
+  // Dynamically derive unique subjects from tasks
+  const uniqueSubjects = useMemo(() => {
+    const subjectSet = new Set<string>();
+    studyTasks.forEach((t) => subjectSet.add(t.subject));
+    return Array.from(subjectSet).sort();
+  }, [studyTasks]);
+
+  // Progress per subject (dynamically derived)
   const subjectProgress = useMemo(() => {
-    return SUBJECTS.map((subject) => {
+    return uniqueSubjects.map((subject) => {
       const tasks = studyTasks.filter((t) => t.subject === subject);
       const completed = tasks.filter((t) => t.completed).length;
       const total = tasks.length;
       const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
       return { subject, completed, total, percentage };
     });
-  }, [studyTasks]);
+  }, [studyTasks, uniqueSubjects]);
 
   // Total progress
   const totalTasks = studyTasks.length;
@@ -110,9 +132,9 @@ export function StudyPlannerSection() {
     totalTasks === 0 ? 0 : Math.round((totalCompleted / totalTasks) * 100);
 
   const handleAddTask = () => {
-    if (!formSubject || !formTitle.trim()) return;
+    if (!formSubject.trim() || !formTitle.trim()) return;
     addStudyTask({
-      subject: formSubject,
+      subject: formSubject.trim(),
       title: formTitle.trim(),
       description: formDescription.trim() || undefined,
       dayOfWeek: Number(formDay),
@@ -178,21 +200,17 @@ export function StudyPlannerSection() {
               </DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-2">
-              {/* Subject selector */}
+              {/* Subject — free text input */}
               <div className="space-y-2">
                 <label className="text-sm font-medium">Subject</label>
-                <Select value={formSubject} onValueChange={setFormSubject}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a subject" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {SUBJECTS.map((subject) => (
-                      <SelectItem key={subject} value={subject}>
-                        {subject}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Input
+                  placeholder="e.g., Data Structures, Linear Algebra, AI..."
+                  value={formSubject}
+                  onChange={(e) => setFormSubject(e.target.value)}
+                />
+                <p className="text-[11px] text-muted-foreground">
+                  Type any subject — it will appear in Subject Progress automatically
+                </p>
               </div>
 
               {/* Title */}
@@ -241,7 +259,7 @@ export function StudyPlannerSection() {
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   onClick={handleAddTask}
-                  disabled={!formSubject || !formTitle.trim()}
+                  disabled={!formSubject.trim() || !formTitle.trim()}
                   className="w-full gap-2"
                 >
                   <Plus size={16} />
@@ -433,8 +451,7 @@ export function StudyPlannerSection() {
                                     variant="outline"
                                     className={cn(
                                       "text-[10px] px-1.5 py-0 border",
-                                      SUBJECT_COLORS[task.subject] ||
-                                        "bg-muted text-muted-foreground"
+                                      getSubjectBadgeClasses(task.subject)
                                     )}
                                   >
                                     {task.subject}
@@ -519,7 +536,7 @@ export function StudyPlannerSection() {
         </Tabs>
       </motion.div>
 
-      {/* Progress Section */}
+      {/* Progress Section — dynamically shows all subjects from tasks */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -529,62 +546,77 @@ export function StudyPlannerSection() {
           <GraduationCap size={20} className="text-primary" />
           <h2 className="text-lg font-semibold">Subject Progress</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {subjectProgress.map((sp, index) => (
-            <motion.div
-              key={sp.subject}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-            >
-              <Card
-                className={cn(
-                  "transition-all duration-200 hover:shadow-md hover:border-primary/30",
-                  sp.total > 0 && SUBJECT_PROGRESS_BG[sp.subject]
-                )}
+        {uniqueSubjects.length === 0 ? (
+          <Card className="border-dashed">
+            <CardContent className="py-12">
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="p-3 rounded-2xl bg-muted/50">
+                  <GraduationCap size={24} className="text-muted-foreground" />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  No subjects yet — add a task and type a subject name
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {subjectProgress.map((sp, index) => (
+              <motion.div
+                key={sp.subject}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
               >
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-sm font-medium">
-                      {sp.subject}
-                    </CardTitle>
-                    <Badge
-                      variant="outline"
-                      className={cn(
-                        "text-[10px] px-1.5 py-0 border",
-                        SUBJECT_COLORS[sp.subject]
-                      )}
-                    >
-                      {sp.completed}/{sp.total}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <Progress
-                      value={sp.percentage}
-                      className={cn(
-                        "h-2.5",
-                        SUBJECT_PROGRESS_COLORS[sp.subject]
-                      )}
-                    />
+                <Card
+                  className={cn(
+                    "transition-all duration-200 hover:shadow-md hover:border-primary/30",
+                    sp.total > 0 && getSubjectProgressBg(sp.subject)
+                  )}
+                >
+                  <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-muted-foreground">
-                        {sp.total === 0
-                          ? "No tasks yet"
-                          : `${sp.completed} of ${sp.total} completed`}
-                      </span>
-                      <span className="text-xs font-bold text-primary">
-                        {sp.percentage}%
-                      </span>
+                      <CardTitle className="text-sm font-medium">
+                        {sp.subject}
+                      </CardTitle>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "text-[10px] px-1.5 py-0 border",
+                          getSubjectBadgeClasses(sp.subject)
+                        )}
+                      >
+                        {sp.completed}/{sp.total}
+                      </Badge>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <Progress
+                        value={sp.percentage}
+                        className={cn(
+                          "h-2.5",
+                          getSubjectProgressClass(sp.subject)
+                        )}
+                      />
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs text-muted-foreground">
+                          {sp.total === 0
+                            ? "No tasks yet"
+                            : `${sp.completed} of ${sp.total} completed`}
+                        </span>
+                        <span className="text-xs font-bold text-primary">
+                          {sp.percentage}%
+                        </span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </motion.div>
 
       {/* Quick Stats */}
@@ -612,9 +644,7 @@ export function StudyPlannerSection() {
             },
             {
               label: "Subjects",
-              value: SUBJECTS.filter(
-                (s) => studyTasks.some((t) => t.subject === s)
-              ).length,
+              value: uniqueSubjects.length,
               icon: <GraduationCap size={16} />,
             },
           ].map((stat, index) => (
