@@ -6,9 +6,7 @@ export async function GET(req: NextRequest) {
     const token = req.nextUrl.searchParams.get("token");
 
     if (!token) {
-      return NextResponse.redirect(
-        new URL("/?auth=verify-failed&reason=no-token", req.url)
-      );
+      return NextResponse.json({ success: false, reason: "no-token" }, { status: 400 });
     }
 
     // Find the verification token
@@ -17,9 +15,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!verificationToken) {
-      return NextResponse.redirect(
-        new URL("/?auth=verify-failed&reason=invalid-token", req.url)
-      );
+      return NextResponse.json({ success: false, reason: "invalid-token" }, { status: 400 });
     }
 
     // Check if token expired
@@ -28,9 +24,7 @@ export async function GET(req: NextRequest) {
       await db.verificationToken.delete({
         where: { token },
       });
-      return NextResponse.redirect(
-        new URL("/?auth=verify-failed&reason=token-expired", req.url)
-      );
+      return NextResponse.json({ success: false, reason: "token-expired" }, { status: 400 });
     }
 
     // Find user by email (identifier)
@@ -39,9 +33,7 @@ export async function GET(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.redirect(
-        new URL("/?auth=verify-failed&reason=user-not-found", req.url)
-      );
+      return NextResponse.json({ success: false, reason: "user-not-found" }, { status: 404 });
     }
 
     if (user.emailVerified) {
@@ -49,9 +41,7 @@ export async function GET(req: NextRequest) {
       await db.verificationToken.delete({
         where: { token },
       });
-      return NextResponse.redirect(
-        new URL("/?auth=already-verified", req.url)
-      );
+      return NextResponse.json({ success: true, alreadyVerified: true });
     }
 
     // Verify the user
@@ -65,13 +55,12 @@ export async function GET(req: NextRequest) {
       where: { token },
     });
 
-    return NextResponse.redirect(
-      new URL("/?auth=verify-success", req.url)
-    );
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Verification error:", error);
-    return NextResponse.redirect(
-      new URL("/?auth=verify-failed&reason=server-error", req.url)
+    return NextResponse.json(
+      { success: false, reason: "server-error" },
+      { status: 500 }
     );
   }
 }

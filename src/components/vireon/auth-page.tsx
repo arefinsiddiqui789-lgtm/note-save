@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ export function AuthPage() {
   const [view, setView] = useState<AuthView>("login");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [verifyUrl, setVerifyUrl] = useState("");
+  const [verifyPath, setVerifyPath] = useState("");
   const [verifyError, setVerifyError] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
 
@@ -42,17 +42,6 @@ export function AuthPage() {
   const [signupEmailInput, setSignupEmailInput] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupConfirmPassword, setSignupConfirmPassword] = useState("");
-
-  // Check URL params for verification redirects
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const authParam = params.get("auth");
-    if (authParam === "verify-success") setView("verify-success");
-    else if (authParam === "verify-failed") {
-      setVerifyError(params.get("reason") || "unknown");
-      setView("verify-failed");
-    } else if (authParam === "already-verified") setView("login");
-  }, []);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -120,7 +109,7 @@ export function AuthPage() {
       }
 
       setSignupEmail(signupEmailInput.toLowerCase());
-      setVerifyUrl(data.verificationUrl);
+      setVerifyPath(data.verifyPath);
       setView("verify-sent");
       toast.success("Account created! Check your email.");
     } catch {
@@ -130,9 +119,23 @@ export function AuthPage() {
     }
   }
 
-  function handleVerifyClick() {
-    if (verifyUrl) {
-      window.location.href = verifyUrl;
+  async function handleVerifyClick() {
+    if (!verifyPath) return;
+    setIsLoading(true);
+    try {
+      const res = await fetch(verifyPath);
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Email verified successfully!");
+        setView("verify-success");
+      } else {
+        setVerifyError(data.reason || "unknown");
+        setView("verify-failed");
+      }
+    } catch {
+      toast.error("Verification failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -491,13 +494,18 @@ export function AuthPage() {
                 </p>
 
                 {/* Demo verify button (in production, user would click email link) */}
-                {verifyUrl && (
+                {verifyPath && (
                   <Button
                     onClick={handleVerifyClick}
                     className="w-full h-11 text-sm font-semibold gap-2 mb-4"
+                    disabled={isLoading}
                   >
-                    <CheckCircle2 size={16} />
-                    Verify My Email (Demo)
+                    {isLoading ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <CheckCircle2 size={16} />
+                    )}
+                    Verify My Email
                   </Button>
                 )}
 

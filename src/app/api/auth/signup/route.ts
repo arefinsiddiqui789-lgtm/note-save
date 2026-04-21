@@ -74,13 +74,12 @@ export async function POST(req: NextRequest) {
         data: { name, password: hashedPassword },
       });
 
-      // In production, send email here
-      // For now, return the verification URL
-      const verificationUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/auth/verify?token=${token}`;
+      // Return relative path so the frontend can fetch it (works in sandbox)
+      const verifyPath = `/api/auth/verify?token=${token}`;
 
       return NextResponse.json({
         message: "Verification email sent! Please check your inbox.",
-        verificationUrl, // For demo — remove in production
+        verifyPath,
         email: email.toLowerCase(),
       });
     }
@@ -107,13 +106,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // In production, send verification email here using Resend/SendGrid/etc
-    // For now, return the verification URL for demo
-    const verificationUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/api/auth/verify?token=${token}`;
+    // Return relative path so the frontend can fetch it (works in sandbox)
+    const verifyPath = `/api/auth/verify?token=${token}`;
 
     return NextResponse.json({
       message: "Account created! Please check your email to verify your account.",
-      verificationUrl, // For demo — remove in production
+      verifyPath,
       email: user.email,
     });
   } catch (error) {
