@@ -15,7 +15,9 @@ import {
   X,
   CalendarDays,
   Clock,
+  LogOut,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSyncExternalStore, useState, useEffect } from "react";
@@ -123,6 +125,7 @@ export function Sidebar() {
   const { activeSection, setActiveSection, sidebarOpen, setSidebarOpen } =
     useVireonStore();
   const { theme, setTheme } = useTheme();
+  const { data: session } = useSession();
   const mounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
   const bdTime = useBdTime();
 
@@ -329,6 +332,20 @@ export function Sidebar() {
               </span>
             </button>
           </div>
+
+          {/* User info & Logout */}
+          <button
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className={cn(
+              "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] font-medium mt-2",
+              "text-sidebar-foreground/40 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-200"
+            )}
+          >
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-rose-500/10 text-rose-400">
+              <LogOut size={17} />
+            </div>
+            <span>Sign Out</span>
+          </button>
 
           {/* Branding */}
           <p className="text-[10px] text-muted-foreground/25 text-center mt-3 font-medium">

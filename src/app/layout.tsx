@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/vireon/theme-provider";
+import { SessionProvider } from "@/components/vireon/session-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
@@ -31,8 +32,10 @@ export default function RootLayout({
         className={`${poppins.variable} font-sans antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
-          {children}
-          <Toaster richColors position="bottom-right" />
+          <SessionProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>
